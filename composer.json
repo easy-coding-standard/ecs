@@ -20,7 +20,7 @@
         "nette/utils": "^4.0.7",
         "sebastian/diff": "^6.0.2",
         "squizlabs/php_codesniffer": "^4.0",
-        "symfony/console": "^7.3.5",
+        "symfony/console": "^6.4.24",
         "symfony/finder": "^7.3.0",
         "symplify/coding-standard": "^13.0.0",
         "symplify/easy-parallel": "^11.2.2",
