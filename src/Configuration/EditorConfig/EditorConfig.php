@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
 
 /**
@@ -9,13 +8,43 @@ namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
  */
 class EditorConfig
 {
-    public function __construct(
-        public readonly ?string $indentStyle,
-        public readonly ?string $endOfLine,
-        public readonly ?bool $trimTrailingWhitespace,
-        public readonly ?bool $insertFinalNewline,
-        public readonly ?int $maxLineLength,
-        public readonly ?string $quoteType
-    ) {
+    /**
+     * @readonly
+     * @var string|null
+     */
+    public $indentStyle;
+    /**
+     * @readonly
+     * @var string|null
+     */
+    public $endOfLine;
+    /**
+     * @readonly
+     * @var bool|null
+     */
+    public $trimTrailingWhitespace;
+    /**
+     * @readonly
+     * @var bool|null
+     */
+    public $insertFinalNewline;
+    /**
+     * @readonly
+     * @var int|null
+     */
+    public $maxLineLength;
+    /**
+     * @readonly
+     * @var string|null
+     */
+    public $quoteType;
+    public function __construct(?string $indentStyle, ?string $endOfLine, ?bool $trimTrailingWhitespace, ?bool $insertFinalNewline, ?int $maxLineLength, ?string $quoteType)
+    {
+        $this->indentStyle = $indentStyle;
+        $this->endOfLine = $endOfLine;
+        $this->trimTrailingWhitespace = $trimTrailingWhitespace;
+        $this->insertFinalNewline = $insertFinalNewline;
+        $this->maxLineLength = $maxLineLength;
+        $this->quoteType = $quoteType;
     }
 }

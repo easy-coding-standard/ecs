@@ -1,95 +1,25 @@
 {
     "name": "symplify/easy-coding-standard",
-    "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer.",
+    "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
     "license": "MIT",
-    "keywords": [
-        "static analysis",
-        "code style",
-        "automation",
-        "fixer"
-    ],
+    "keywords": ["static analysis", "code style", "automation", "fixer"],
     "bin": [
         "bin/ecs"
     ],
     "require": {
-        "php": ">=8.2",
-        "composer/pcre": "^3.3.2",
-        "composer/xdebug-handler": "^3.0.5",
-        "friendsofphp/php-cs-fixer": "^3.89",
-        "illuminate/container": "^12.35",
-        "nette/utils": "^4.0.7",
-        "sebastian/diff": "^6.0.2",
-        "squizlabs/php_codesniffer": "^4.0",
-        "symfony/console": "^6.4.24",
-        "symfony/finder": "^7.3.0",
-        "symplify/coding-standard": "^13.0.0",
-        "symplify/easy-parallel": "^11.2.2",
-        "webmozart/assert": "^1.12"
-    },
-    "require-dev": {
-        "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan": "^2.1.21",
-        "phpstan/phpstan-phpunit": "^2.0.7",
-        "phpstan/phpstan-webmozart-assert": "^2.0",
-        "phpunit/phpunit": "^11.5.27",
-        "rector/jack": "^0.2.9",
-        "rector/rector": "^2.2",
-        "rector/type-perfect": "^2.1.0",
-        "symplify/phpstan-extensions": "^12.0.1",
-        "symplify/vendor-patches": "^11.5",
-        "tomasvotruba/class-leak": "^2.0.5",
-        "tomasvotruba/type-coverage": "^2.0.2",
-        "tomasvotruba/unused-public": "^2.0.1",
-        "tracy/tracy": "^2.10.10"
+        "php": ">=7.2"
     },
     "autoload": {
-        "psr-4": {
-            "Symplify\\EasyCodingStandard\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Symplify\\EasyCodingStandard\\Tests\\": "tests"
-        },
         "files": [
-            "tests/functions.php"
+            "bootstrap.php"
         ]
     },
-    "config": {
-        "sort-packages": true,
-        "platform-check": false,
-        "allow-plugins": {
-            "cweagans/composer-patches": true,
-            "phpstan/extension-installer": true
-        }
+    "conflict": {
+        "symplify/coding-standard": "<12.1",
+        "phpcsstandards/php_codesniffer": "<3.8",
+        "friendsofphp/php-cs-fixer": "<3.46"
     },
-    "scripts": {
-        "lint": [
-            "@phpstan",
-            "@rector",
-            "@check-cs"
-        ],
-        "lint.fix": [
-            "@fix-rector",
-            "@fix-cs"
-        ],
-        "test": "phpunit",
-        "phpstan": "vendor/bin/phpstan analyse --ansi --memory-limit=1G --error-format symplify",
-        "rector": "vendor/bin/rector process --dry-run --memory-limit=1G --ansi",
-        "fix-rector": "vendor/bin/rector process --memory-limit=1G --ansi",
-        "check-cs": "bin/ecs check --ansi",
-        "fix-cs": "bin/ecs check --fix --ansi"
-    },
-    "replace": {
-        "symfony/event-dispatcher": "7.*",
-        "symfony/process": "7.*",
-        "symfony/stopwatch": "7.*"
-    },
-    "extra": {
-        "patches": {
-            "illuminate/container": [
-                "patches/illuminate-container-container-php.patch"
-            ]
-        }
+    "suggest": {
+        "ext-dom": "Needed to support checkstyle output format in class CheckstyleOutputFormatter"
     }
 }

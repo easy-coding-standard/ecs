@@ -1,73 +1,61 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 
-use Illuminate\Container\Container;
+use ECSPrefix202511\Illuminate\Container\Container;
 use Symplify\EasyCodingStandard\DependencyInjection\SimpleParameterProvider;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-
 final class RemoveExcludedCheckersCompilerPass
 {
-    public function process(Container $container): void
+    public function process(Container $container) : void
     {
         $excludedCheckers = $this->getExcludedCheckersFromSkipParameter();
-
-        foreach (array_keys($container->getBindings()) as $classType) {
-            if (! in_array($classType, $excludedCheckers, true)) {
+        foreach (\array_keys($container->getBindings()) as $classType) {
+            if (!\in_array($classType, $excludedCheckers, \true)) {
                 continue;
             }
-
             // remove service from container completely
-            CompilerPassHelper::removeCheckerFromContainer($container, $classType);
+            \Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\CompilerPassHelper::removeCheckerFromContainer($container, $classType);
         }
     }
-
     /**
      * @return array<int, class-string>
      */
-    private function getExcludedCheckersFromSkipParameter(): array
+    private function getExcludedCheckersFromSkipParameter() : array
     {
         $excludedCheckers = [];
-
         $skip = SimpleParameterProvider::getArrayParameter(Option::SKIP);
-
         foreach ($skip as $key => $value) {
             $excludedChecker = $this->matchFullClassSkip($key, $value);
             if ($excludedChecker === null) {
                 continue;
             }
-
             $excludedCheckers[] = $excludedChecker;
         }
-
-        return array_unique($excludedCheckers);
+        return \array_unique($excludedCheckers);
     }
-
     /**
      * @return class-string|null
+     * @param int|string $key
+     * @param mixed $value
      */
-    private function matchFullClassSkip(int|string $key, mixed $value): ?string
+    private function matchFullClassSkip($key, $value) : ?string
     {
         // "SomeClass::class" => null
-        if (is_string($key) && class_exists($key) && $value === null) {
+        if (\is_string($key) && \class_exists($key) && $value === null) {
             return $key;
         }
-
         // "SomeClass::class"
-        if (! is_int($key)) {
+        if (!\is_int($key)) {
             return null;
         }
-
-        if (! is_string($value)) {
+        if (!\is_string($value)) {
             return null;
         }
-
-        if (! class_exists($value)) {
+        if (!\class_exists($value)) {
             return null;
         }
-
         return $value;
     }
 }

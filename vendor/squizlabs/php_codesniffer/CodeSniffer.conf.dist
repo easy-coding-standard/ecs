@@ -1,0 +1,9 @@
+<?php
+$phpCodeSnifferConfig = [
+    'default_standard' => 'PSR12',
+    'report_format'    => 'summary',
+    'show_warnings'    => '0',
+    'show_progress'    => '1',
+    'report_width'     => '120',
+];
+?>

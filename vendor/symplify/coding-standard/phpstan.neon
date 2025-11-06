@@ -1,0 +1,33 @@
+parameters:
+    level: 8
+
+    errorFormat: symplify
+
+    paths:
+        - src
+        - config
+        - tests
+
+    excludePaths:
+        - '*/tests/**/Source/*'
+        - '*/tests/**/Fixture/*'
+
+    ignoreErrors:
+        -
+            path: tests/bootstrap.php
+            message: '#Instantiated class PHP_CodeSniffer\\Util\\Tokens not found#'
+
+        - '#Constant T_OPEN_CURLY_BRACKET|T_START_NOWDOC not found#'
+
+        # unused generics
+        - '#Class (.*?) implements generic interface PhpCsFixer\\Fixer\\ConfigurableFixerInterface but does not specify its types\: TFixerInputConfig, TFixerComputedConfig#'
+
+        # conditional check to allow various php versions
+        -
+            message: '#Comparison operation ">\=" between int<80200, 80599> and (.*?) is always true#'
+            path: src/TokenAnalyzer/DocblockRelatedParamNamesResolver.php
+
+        # array filter issue
+        -
+            message: '#Parameter \#1 \$array \(array<int, PhpCsFixer\\Tokenizer\\Token>\) to function array_filter does not contain falsy values, the array will always stay the same#'
+            path: src/TokenRunner/Traverser/TokenReverser.php

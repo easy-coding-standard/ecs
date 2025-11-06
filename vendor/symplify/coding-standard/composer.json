@@ -1,0 +1,43 @@
+{
+    "name": "symplify\/coding-standard",
+    "description": "Set of Symplify rules for PHP_CodeSniffer and PHP CS Fixer.",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "nette\/utils": "^4.0",
+        "friendsofphp\/php-cs-fixer": "^3.89"
+    },
+    "require-dev": {
+        "symplify\/easy-coding-standard": "^12.6",
+        "squizlabs\/php_codesniffer": "^4.0",
+        "phpunit\/phpunit": "^11.5|^12.0",
+        "phpstan\/extension-installer": "^1.4",
+        "phpstan\/phpstan": "^2.1",
+        "rector\/rector": "^2.2",
+        "symplify\/phpstan-extensions": "^12.0",
+        "tomasvotruba\/class-leak": "^2.0",
+        "rector\/jack": "^0.2",
+        "tracy\/tracy": "^2.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\CodingStandard\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\CodingStandard\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan\/extension-installer": true
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor\/bin\/ecs check --ansi",
+        "fix-cs": "vendor\/bin\/ecs check --fix --ansi",
+        "phpstan": "vendor\/bin\/phpstan analyse --ansi",
+        "rector": "vendor\/bin\/rector process --dry-run --ansi"
+    }
+}

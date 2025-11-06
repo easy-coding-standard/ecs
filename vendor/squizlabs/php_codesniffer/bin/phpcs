@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php 
+namespace ECSPrefix202511;
+
+/**
+ * PHP_CodeSniffer detects violations of a defined coding standard.
+ *
+ * :WARNING:
+ *   This file MUST stay cross-version compatible with older PHP versions (min: PHP 5.3) to allow
+ *   for the requirements check to work correctly.
+ *
+ *   The PHP 5.3 minimum is set as the previous PHPCS major (3.x) already had a PHP 5.4 minimum
+ *   requirement and didn't take parse errors caused due to the use of namespaces into account
+ *   in its requirements check, so running PHPCS 3.x on PHP < 5.3 would have failed with a parse
+ *   error already anyway, so PHP 5.3 seems reasonable to keep as the minimum for this.
+ * :WARNING:
+ *
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @author    Juliette Reinders Folmer <phpcs_nospam@adviesenzo.nl>
+ * @copyright 2006-2023 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2023 PHPCSStandards and contributors
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
+ */
+// Check if the PHP version and extensions comply with the minimum requirements before anything else.
+require_once \dirname(__DIR__) . '/requirements.php';
+\PHP_CodeSniffer\checkRequirements();
+require_once \dirname(__DIR__) . '/autoload.php';
+$runner = new \PHP_CodeSniffer\Runner();
+$exitCode = $runner->runPHPCS();
+exit($exitCode);

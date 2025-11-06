@@ -1,23 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
-use Symfony\Component\Console\Command\Command;
-
+use ECSPrefix202511\Symfony\Component\Console\Command\Command;
 final class ExitCode
 {
     /**
      * @var int
      */
     public const SUCCESS = Command::SUCCESS;
-
     /**
      * @var int
      */
     public const FAILURE = Command::FAILURE;
-
     /**
      * @var int
      */

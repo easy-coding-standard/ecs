@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Skipper\FileSystem;
 
 /**
@@ -9,22 +8,19 @@ namespace Symplify\EasyCodingStandard\Skipper\FileSystem;
  */
 final class FnMatchPathNormalizer
 {
-    public function normalizeForFnmatch(string $path): string
+    public function normalizeForFnmatch(string $path) : string
     {
-        if (str_ends_with($path, '*') || str_starts_with($path, '*')) {
-            return '*' . trim($path, '*') . '*';
+        if (\substr_compare($path, '*', -\strlen('*')) === 0 || \strncmp($path, '*', \strlen('*')) === 0) {
+            return '*' . \trim($path, '*') . '*';
         }
-
-        if (\str_contains($path, '..')) {
+        if (\strpos($path, '..') !== \false) {
             /** @var string|false $realPath */
-            $realPath = realpath($path);
-            if ($realPath === false) {
+            $realPath = \realpath($path);
+            if ($realPath === \false) {
                 return '';
             }
-
             return $realPath;
         }
-
         return $path;
     }
 }

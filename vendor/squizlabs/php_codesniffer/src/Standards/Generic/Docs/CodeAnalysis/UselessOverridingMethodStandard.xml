@@ -1,0 +1,32 @@
+<documentation title="Useless Overriding Method">
+    <standard>
+    <![CDATA[
+    It is discouraged to override a method if the overriding method only calls the parent method.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: A method that extends functionality of a parent method.">
+        <![CDATA[
+final class Foo extends Baz
+{
+    public function bar()
+    {
+        parent::bar();
+        <em>$this->doSomethingElse();</em>
+    }
+}
+        ]]>
+        </code>
+        <code title="Invalid: An overriding method that only calls the parent method.">
+        <![CDATA[
+final class Foo extends Baz
+{
+    public function bar()
+    {
+        <em>parent::bar();</em>
+    }
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
 
 /**
@@ -10,8 +9,6 @@ namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
 final class QuoteType
 {
     public const Single = 'single';
-
     public const Double = 'double';
-
     public const Auto = 'auto';
 }
