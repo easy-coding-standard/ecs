@@ -74,7 +74,7 @@ final readonly class WorkerRunner
                     ++$systemErrorsCount;
 
                     $errorMessage = sprintf('System error: "%s"', $throwable->getMessage());
-                    $errorMessage .= 'Run ECS with "--debug" option and post the report here: https://github.com/symplify/symplify/issues/new';
+                    $errorMessage .= 'Run ECS with "--debug" option and post the report here: https://github.com/easy-coding-standard/easy-coding-standard/issues/new';
                     $systemErrors[] = new SystemError($throwable->getLine(), $errorMessage, $filePath);
                 }
             }
