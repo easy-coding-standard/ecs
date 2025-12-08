@@ -80,7 +80,7 @@ return ECSConfig::configure()
 
 <br>
 
-Do you want to include one of 100+ sets from [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst)?
+Do you want to include one of sets from [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst)?
 
 You can:
 
