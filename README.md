@@ -6,7 +6,7 @@
 
 ## Killer Features
 
-- Install on **any PHP 7.2-PHP 8.4** project with any dependencies
+- Install on **any PHP 7.2-PHP 8.5** project with any dependencies
 - Blazing fast with parallel run out of the box
 - Use [PHP_CodeSniffer or PHP-CS-Fixer](https://tomasvotruba.com/blog/2017/05/03/combine-power-of-php-code-sniffer-and-php-cs-fixer-in-3-lines/) - anything you like
 - Use **prepared sets** and [PHP CS Fixer sets](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst) to save time
@@ -80,7 +80,7 @@ return ECSConfig::configure()
 
 <br>
 
-Do you want to include one of 44 sets from [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst)?
+Do you want to include one of 100+ sets from [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/ruleSets/index.rst)?
 
 You can:
 
