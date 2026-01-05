@@ -7,7 +7,6 @@ namespace Symplify\EasyCodingStandard\Finder;
 use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\DependencyInjection\SimpleParameterProvider;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Webmozart\Assert\Assert;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Finder\SourceFinderTest

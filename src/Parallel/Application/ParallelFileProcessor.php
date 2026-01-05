@@ -37,10 +37,7 @@ use Throwable;
  */
 final class ParallelFileProcessor
 {
-    /**
-     * @var int
-     */
-    private const SYSTEM_ERROR_LIMIT = 50;
+    private const int SYSTEM_ERROR_LIMIT = 50;
 
     private ProcessPool|null $processPool = null;
 

@@ -121,8 +121,13 @@ final class File extends BaseFile
      *
      * @param mixed[] $data
      */
-    public function addFixableError(string $error, int $stackPtr, string $code, array $data = [], int $severity = 0): bool
-    {
+    public function addFixableError(
+        string $error,
+        int $stackPtr,
+        string $code,
+        array $data = [],
+        int $severity = 0
+    ): bool {
         $fullyQualifiedCode = $this->resolveFullyQualifiedCode($code);
         $this->sniffMetadataCollector->addAppliedSniff($fullyQualifiedCode);
 
@@ -132,8 +137,14 @@ final class File extends BaseFile
     /**
      * @param mixed[] $data
      */
-    public function addError(string $error, ?int $stackPtr, string $code, array $data = [], int $severity = 0, bool $fixable = false): bool
-    {
+    public function addError(
+        string $error,
+        ?int $stackPtr,
+        string $code,
+        array $data = [],
+        int $severity = 0,
+        bool $fixable = false
+    ): bool {
         if ($this->shouldSkipError($error, $code, $data)) {
             return false;
         }
@@ -145,8 +156,14 @@ final class File extends BaseFile
      * @param mixed[] $data
      * Allow only specific classes
      */
-    public function addWarning(string $warning, ?int $stackPtr, string $code, array $data = [], int $severity = 0, bool $fixable = false): bool
-    {
+    public function addWarning(
+        string $warning,
+        ?int $stackPtr,
+        string $code,
+        array $data = [],
+        int $severity = 0,
+        bool $fixable = false
+    ): bool {
         if ($this->activeSniffClass === null) {
             throw new ShouldNotHappenException();
         }

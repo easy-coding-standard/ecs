@@ -19,20 +19,15 @@ final class PathNormalizer
 {
     /**
      * @see https://regex101.com/r/d4F5Fm/1
-     * @var string
      */
-    private const SCHEME_PATH_REGEX = '#^([a-z]+)\\:\\/\\/(.+)#';
+    private const string SCHEME_PATH_REGEX = '#^([a-z]+)\\:\\/\\/(.+)#';
 
     /**
      * @see https://regex101.com/r/no28vw/1
-     * @var string
      */
-    private const TWO_AND_MORE_SLASHES_REGEX = '#/{2,}#';
+    private const string TWO_AND_MORE_SLASHES_REGEX = '#/{2,}#';
 
-    /**
-     * @var string
-     */
-    private const SCHEME_UNDEFINED = 'undefined';
+    private const string SCHEME_UNDEFINED = 'undefined';
 
     public function normalizePath(string $originalPath): string
     {

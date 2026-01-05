@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\Console\Output;
 
+use Override;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use PhpCsFixer\Differ\DifferInterface;
 use PHPUnit\Framework\Attributes\Depends;
@@ -25,6 +26,7 @@ final class GitlabOutputFormatterTest extends AbstractTestCase
 
     private DifferInterface $differ;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

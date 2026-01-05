@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\Skipper\FileSystem;
 
 use Iterator;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symplify\EasyCodingStandard\Skipper\FileSystem\FnMatchPathNormalizer;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractTestCase;
@@ -13,6 +14,7 @@ final class FnMatchPathNormalizerTest extends AbstractTestCase
 {
     private FnMatchPathNormalizer $fnMatchPathNormalizer;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

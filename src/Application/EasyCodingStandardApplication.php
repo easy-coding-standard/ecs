@@ -27,10 +27,7 @@ use Symplify\EasyParallel\ScheduleFactory;
 
 final readonly class EasyCodingStandardApplication
 {
-    /**
-     * @var string
-     */
-    private const ARGV = 'argv';
+    private const string ARGV = 'argv';
 
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,

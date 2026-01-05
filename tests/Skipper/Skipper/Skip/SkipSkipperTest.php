@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\Skipper\Skipper\Skip;
 
 use Iterator;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symplify\EasyCodingStandard\Skipper\Skipper\Skipper;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractTestCase;
@@ -16,6 +17,7 @@ final class SkipSkipperTest extends AbstractTestCase
 {
     private Skipper $skipper;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->createContainerWithConfigs([__DIR__ . '/config/config.php']);

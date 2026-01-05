@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\Console\Output;
 
+use Override;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\EasyCodingStandard\Console\Output\JUnitOutputFormatter;
@@ -18,6 +19,7 @@ final class JUnitOutputFormatterTest extends AbstractTestCase
 
     private ColorConsoleDiffFormatter $colorConsoleDiffFormatter;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

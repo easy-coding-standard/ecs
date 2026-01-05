@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
 use Composer\XdebugHandler\XdebugHandler;
+use Override;
 use PHP_CodeSniffer\Config as PHP_CodeSniffer;
 use PhpCsFixer\Console\Application as PhpCsFixer;
 use Symfony\Component\Console\Application;
@@ -48,6 +49,7 @@ final class EasyCodingStandardConsoleApplication extends Application
         $this->setDefaultCommand('check');
     }
 
+    #[Override]
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         // @fixes https://github.com/rectorphp/rector/issues/2205
@@ -74,6 +76,7 @@ final class EasyCodingStandardConsoleApplication extends Application
         return $exitCode;
     }
 
+    #[Override]
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\DependencyInjection;
 
-use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 /**
  * @api

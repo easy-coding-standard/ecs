@@ -31,15 +31,12 @@ use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
  */
 final class SniffFileProcessor implements FileProcessorInterface
 {
-    /**
-     * @var int
-     */
-    private const MAX_FIXER_LOOPS = 100;
+    private const int MAX_FIXER_LOOPS = 100;
 
     /**
      * @var array<class-string>
      */
-    private const ESCALATE_WARNINGS_SNIFF = [
+    private const array ESCALATE_WARNINGS_SNIFF = [
         AssignmentInConditionSniff::class,
         PropertyDeclarationSniff::class,
         MethodDeclarationSniff::class,

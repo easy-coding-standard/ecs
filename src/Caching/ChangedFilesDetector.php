@@ -12,15 +12,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ChangedFilesDetector
 {
-    /**
-     * @var string
-     */
-    private const CONFIGURATION_HASH_KEY = 'configuration_hash';
+    private const string CONFIGURATION_HASH_KEY = 'configuration_hash';
 
-    /**
-     * @var string
-     */
-    private const FILE_HASH = 'file_hash';
+    private const string FILE_HASH = 'file_hash';
 
     public function __construct(
         private FileHashComputer $fileHashComputer,

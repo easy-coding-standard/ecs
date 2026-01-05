@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Config;
 
 use Illuminate\Container\Container;
+use Override;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -30,7 +31,7 @@ final class ECSConfig extends Container
     /**
      * @var string[]
      */
-    private const AUTOTAG_INTERFACES = [Sniff::class, FixerInterface::class, OutputFormatterInterface::class];
+    private const array AUTOTAG_INTERFACES = [Sniff::class, FixerInterface::class, OutputFormatterInterface::class];
 
     public static function configure(): ECSConfigBuilder
     {
@@ -254,6 +255,7 @@ final class ECSConfig extends Container
     /**
      * @param string $abstract
      */
+    #[Override]
     public function singleton($abstract, mixed $concrete = null): void
     {
         parent::singleton($abstract, $concrete);

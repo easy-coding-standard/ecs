@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\ChangedFilesDetector\FileHashComputer;
 
+use Override;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\EasyCodingStandard\Caching\FileHashComputer;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractTestCase;
 
 final class FileHashComputerTest extends AbstractTestCase
 {
-    /**
-     * @var string
-     */
-    private const INCLUDED_CONFIG_FILE = __DIR__ . '/Fixture/another-one.php';
+    private const string INCLUDED_CONFIG_FILE = __DIR__ . '/Fixture/another-one.php';
 
     private FileHashComputer $fileHashComputer;
 
     private Filesystem $filesystem;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

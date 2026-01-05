@@ -12,17 +12,17 @@
         "bin/ecs"
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "composer/pcre": "^3.3.2",
         "composer/xdebug-handler": "^3.0.5",
-        "friendsofphp/php-cs-fixer": "^3.89",
-        "illuminate/container": "^12.35",
+        "friendsofphp/php-cs-fixer": "^3.92.4",
+        "illuminate/container": "12.39",
         "nette/utils": "^4.0.7",
         "sebastian/diff": "^6.0.2",
         "squizlabs/php_codesniffer": "^4.0",
         "symfony/console": "^6.4.24",
         "symfony/finder": "^7.3.0",
-        "symplify/coding-standard": "^13.0.0",
+        "symplify/coding-standard": "^13.0",
         "symplify/easy-parallel": "^11.2.2",
         "webmozart/assert": "^1.12"
     },

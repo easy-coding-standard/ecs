@@ -16,10 +16,7 @@ use Symplify\EasyCodingStandard\Skipper\SkipVoter\PathSkipVoter;
  */
 final class Skipper
 {
-    /**
-     * @var string
-     */
-    private const FILE_ELEMENT = 'file_elements';
+    private const string FILE_ELEMENT = 'file_elements';
 
     /**
      * @var SkipVoterInterface[]

@@ -6,158 +6,107 @@ namespace Symplify\EasyCodingStandard\ValueObject;
 
 final class Option
 {
-    /**
-     * @var string
-     */
-    public const FIX = 'fix';
+    public const string FIX = 'fix';
 
-    /**
-     * @var string
-     */
-    public const CLEAR_CACHE = 'clear-cache';
+    public const string CLEAR_CACHE = 'clear-cache';
 
-    /**
-     * @var string
-     */
-    public const NO_PROGRESS_BAR = 'no-progress-bar';
+    public const string NO_PROGRESS_BAR = 'no-progress-bar';
 
-    /**
-     * @var string
-     */
-    public const NO_ERROR_TABLE = 'no-error-table';
+    public const string NO_ERROR_TABLE = 'no-error-table';
 
-    /**
-     * @var string
-     */
-    public const OUTPUT_FORMAT = 'output-format';
+    public const string OUTPUT_FORMAT = 'output-format';
 
-    /**
-     * @var string
-     */
-    public const NO_DIFFS = 'no-diffs';
+    public const string NO_DIFFS = 'no-diffs';
 
     /**
      * @api
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::skip()
-     * @var string
      */
-    public const SKIP = 'skip';
+    public const string SKIP = 'skip';
 
     /**
      * Alias for SOURCE
      *
      * @api
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::paths()
-     * @var string
      */
-    public const PATHS = 'paths';
+    public const string PATHS = 'paths';
 
     /**
      * @api
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::skip()
-     * @var string
      */
-    public const ONLY = 'only';
+    public const string ONLY = 'only';
 
     /**
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::cacheDirectory()
-     * @var string
      */
-    public const CACHE_DIRECTORY = 'cache_directory';
+    public const string CACHE_DIRECTORY = 'cache_directory';
 
     /**
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::lineEnding()
-     * @var string
      */
-    public const LINE_ENDING = 'line_ending';
+    public const string LINE_ENDING = 'line_ending';
 
     /**
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::indentation()
-     * @var string
      */
-    public const INDENTATION = 'indentation';
+    public const string INDENTATION = 'indentation';
 
     /**
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::cacheNamespace()
-     * @var string
      */
-    public const CACHE_NAMESPACE = 'cache_namespace';
+    public const string CACHE_NAMESPACE = 'cache_namespace';
 
     /**
      * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::fileExtensions()
-     * @var string
      */
-    public const FILE_EXTENSIONS = 'file_extensions';
+    public const string FILE_EXTENSIONS = 'file_extensions';
 
     /**
      * @api
-     * @var string
      */
-    public const INDENTATION_SPACES = 'spaces';
+    public const string INDENTATION_SPACES = 'spaces';
 
     /**
      * @api
-     * @var string
      */
-    public const INDENTATION_TAB = 'tab';
+    public const string INDENTATION_TAB = 'tab';
 
-    /**
-     * @var string
-     */
-    public const XDEBUG = 'xdebug';
+    public const string XDEBUG = 'xdebug';
 
-    /**
-     * @var string
-     */
-    public const DEBUG = 'debug';
+    public const string DEBUG = 'debug';
 
     /**
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
-     * @var string
      */
-    public const PARALLEL = 'parallel';
+    public const string PARALLEL = 'parallel';
 
-    /**
-     * @var string
-     */
-    public const CONFIG = 'config';
+    public const string CONFIG = 'config';
 
     /**
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
-     * @var string
      */
-    public const PARALLEL_JOB_SIZE = 'parallel_job_size';
+    public const string PARALLEL_JOB_SIZE = 'parallel_job_size';
 
-    /**
-     * @var string
-     */
-    public const PARALLEL_PORT = 'port';
+    public const string PARALLEL_PORT = 'port';
 
-    /**
-     * @var string
-     */
-    public const PARALLEL_IDENTIFIER = 'identifier';
+    public const string PARALLEL_IDENTIFIER = 'identifier';
 
     /**
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
-     * @var string
      */
-    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
+    public const string PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
 
-    /**
-     * @var string
-     */
-    public const MEMORY_LIMIT = 'memory-limit';
+    public const string MEMORY_LIMIT = 'memory-limit';
 
     /**
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
-     * @var string
      */
-    public const PARALLEL_TIMEOUT_IN_SECONDS = 'parallel-timeout-in-seconds';
+    public const string PARALLEL_TIMEOUT_IN_SECONDS = 'parallel-timeout-in-seconds';
 
     /**
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::reportingRealPath()
-     * @var string
      */
-    public const REPORTING_REALPATH = 'reporting-realpath';
+    public const string REPORTING_REALPATH = 'reporting-realpath';
 }

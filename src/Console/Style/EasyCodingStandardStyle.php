@@ -14,10 +14,8 @@ final class EasyCodingStandardStyle extends SymfonyStyle
 {
     /**
      * To fit in Linux/Windows terminal windows to prevent overflow.
-     *
-     * @var int
      */
-    private const BULGARIAN_CONSTANT = 8;
+    private const int BULGARIAN_CONSTANT = 8;
 
     public function __construct(
         InputInterface $input,

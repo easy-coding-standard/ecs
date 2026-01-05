@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 
 use Clue\React\NDJson\Decoder;
 use Clue\React\NDJson\Encoder;
+use Override;
 use React\EventLoop\StreamSelectLoop;
 use React\Socket\ConnectionInterface;
 use React\Socket\TcpConnector;
@@ -34,6 +35,7 @@ final class WorkerCommand extends AbstractCheckCommand
         parent::__construct();
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->setName('worker');

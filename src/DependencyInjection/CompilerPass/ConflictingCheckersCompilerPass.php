@@ -29,7 +29,7 @@ final class ConflictingCheckersCompilerPass
      *
      * @var string[][]
      */
-    private const CONFLICTING_CHECKER_GROUPS = [
+    private const array CONFLICTING_CHECKER_GROUPS = [
         [StandaloneLineConstructorParamFixer::class, StandaloneLinePromotedPropertyFixer::class],
         ['SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff', YodaStyleFixer::class],
         [LowerCaseConstantSniff::class, UpperCaseConstantSniff::class],

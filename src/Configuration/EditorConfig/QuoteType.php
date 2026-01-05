@@ -9,9 +9,9 @@ namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
  */
 final class QuoteType
 {
-    public const Single = 'single';
+    public const string Single = 'single';
 
-    public const Double = 'double';
+    public const string Double = 'double';
 
-    public const Auto = 'auto';
+    public const string Auto = 'auto';
 }

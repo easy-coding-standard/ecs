@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\FixerRunner\Application;
 
+use Override;
 use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
 use PhpCsFixer\Fixer\Basic\EncodingFixer;
 use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
@@ -14,6 +15,7 @@ final class FileProcessorTest extends AbstractTestCase
 {
     private FixerFileProcessor $fixerFileProcessor;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

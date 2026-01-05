@@ -37,7 +37,7 @@ final class ECSAutoloadIncluder
     /**
      * @var string[]
      */
-    private const POSSIBLE_AUTOLOAD_PATHS = [
+    private const array POSSIBLE_AUTOLOAD_PATHS = [
         // after split package
         __DIR__ . '/../vendor',
         // dependency

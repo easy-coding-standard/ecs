@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 use Iterator;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
+use Override;
 use Symplify\EasyCodingStandard\Exception\ShouldNotHappenException;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -24,15 +25,12 @@ if (file_exists($scoperAutoloadFilepath)) {
  */
 abstract class AbstractCheckerTestCase extends AbstractTestCase implements ConfigAwareInterface
 {
-    /**
-     * @var string
-     */
-    private const SPLIT_LINE_REGEX = "#\-\-\-\-\-\r?\n#";
+    private const string SPLIT_LINE_REGEX = "#\-\-\-\-\-\r?\n#";
 
     /**
      * @var string[]
      */
-    private const POSSIBLE_CODE_SNIFFER_AUTOLOAD_PATHS = [
+    private const array POSSIBLE_CODE_SNIFFER_AUTOLOAD_PATHS = [
         __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
         __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
     ];
@@ -41,6 +39,7 @@ abstract class AbstractCheckerTestCase extends AbstractTestCase implements Confi
 
     private SniffFileProcessor $sniffFileProcessor;
 
+    #[Override]
     protected function setUp(): void
     {
         // autoload php code sniffer before Kernel boot

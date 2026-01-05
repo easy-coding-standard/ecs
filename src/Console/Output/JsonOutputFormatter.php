@@ -16,10 +16,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
  */
 final readonly class JsonOutputFormatter implements OutputFormatterInterface
 {
-    /**
-     * @var string
-     */
-    private const FILES = 'files';
+    private const string FILES = 'files';
 
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,

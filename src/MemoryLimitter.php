@@ -14,10 +14,9 @@ use Symplify\EasyCodingStandard\ValueObject\Configuration;
 final class MemoryLimitter
 {
     /**
-     * @var string
      * @see https://regex101.com/r/pmiGUM/1
      */
-    private const VALID_MEMORY_LIMIT_REGEX = '#^-?\d+[kMG]?$#i';
+    private const string VALID_MEMORY_LIMIT_REGEX = '#^-?\d+[kMG]?$#i';
 
     public function adjust(Configuration $configuration): void
     {

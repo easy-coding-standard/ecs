@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\SniffRunner\Application;
 
+use Override;
 use PHP_CodeSniffer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
@@ -15,6 +16,7 @@ final class FixerTest extends AbstractTestCase
 
     private File $file;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -118,7 +120,10 @@ final class FixerTest extends AbstractTestCase
 
         $this->fixer->addNewlineBefore(14);
         $token = $this->fixer->getTokenContent(14);
-        $this->assertSame(PHP_EOL . 'Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource' . PHP_EOL, $token);
+        $this->assertSame(
+            PHP_EOL . 'Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource' . PHP_EOL,
+            $token
+        );
     }
 
     public function testSubstrToken(): void

@@ -14,10 +14,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 
 final readonly class ConsoleOutputFormatter implements OutputFormatterInterface
 {
-    /**
-     * @var string
-     */
-    public const NAME = 'console';
+    public const string NAME = 'console';
 
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,

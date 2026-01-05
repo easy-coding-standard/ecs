@@ -18,7 +18,7 @@ final class WhitespacesFixerConfigFactory
     /**
      * @var string[]
      */
-    private const ALLOWED_VALUES = ['tab', 'spaces', Spacing::TWO_SPACES, Spacing::FOUR_SPACES, Spacing::ONE_TAB];
+    private const array ALLOWED_VALUES = ['tab', 'spaces', Spacing::TWO_SPACES, Spacing::FOUR_SPACES, Spacing::ONE_TAB];
 
     /**
      * @api

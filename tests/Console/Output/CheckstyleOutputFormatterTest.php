@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\Console\Output;
 
+use Override;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\EasyCodingStandard\Console\Output\CheckstyleOutputFormatter;
@@ -18,6 +19,7 @@ final class CheckstyleOutputFormatterTest extends AbstractTestCase
 
     private ColorConsoleDiffFormatter $colorConsoleDiffFormatter;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
