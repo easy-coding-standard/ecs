@@ -1,28 +1,40 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Skipper\SkipVoter;
 
-use SplFileInfo;
 use Symplify\EasyCodingStandard\Skipper\Contract\SkipVoterInterface;
 use Symplify\EasyCodingStandard\Skipper\Matcher\FileInfoMatcher;
 use Symplify\EasyCodingStandard\Skipper\SkipCriteriaResolver\SkippedPathsResolver;
-
-final readonly class PathSkipVoter implements SkipVoterInterface
+final class PathSkipVoter implements SkipVoterInterface
 {
-    public function __construct(
-        private FileInfoMatcher $fileInfoMatcher,
-        private SkippedPathsResolver $skippedPathsResolver
-    ) {
-    }
-
-    public function match(string | object $element): bool
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Skipper\Matcher\FileInfoMatcher
+     */
+    private $fileInfoMatcher;
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Skipper\SkipCriteriaResolver\SkippedPathsResolver
+     */
+    private $skippedPathsResolver;
+    public function __construct(FileInfoMatcher $fileInfoMatcher, SkippedPathsResolver $skippedPathsResolver)
     {
-        return true;
+        $this->fileInfoMatcher = $fileInfoMatcher;
+        $this->skippedPathsResolver = $skippedPathsResolver;
     }
-
-    public function shouldSkip(string | object $element, SplFileInfo | string $file): bool
+    /**
+     * @param string|object $element
+     */
+    public function match($element) : bool
+    {
+        return \true;
+    }
+    /**
+     * @param string|object $element
+     * @param \SplFileInfo|string $file
+     */
+    public function shouldSkip($element, $file) : bool
     {
         $skippedPaths = $this->skippedPathsResolver->resolve();
         return $this->fileInfoMatcher->doesFileInfoMatchPatterns($file, $skippedPaths);

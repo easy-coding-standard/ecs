@@ -1,0 +1,27 @@
+<documentation title="Goto Target Spacing">
+    <standard>
+    <![CDATA[
+    There should be no space between the label for a goto target and the colon following it.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: No space between the label and the colon.">
+        <![CDATA[
+goto labelA;
+echo 'Foo';
+
+<em>labelA:</em>
+echo 'Bar';
+        ]]>
+        </code>
+        <code title="Invalid: Whitespace between the label and the colon.">
+        <![CDATA[
+goto labelA;
+echo 'Foo';
+
+labelA<em>   </em>:
+echo 'Bar';
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

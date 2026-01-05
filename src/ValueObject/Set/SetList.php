@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\ValueObject\Set;
 
 /**
@@ -11,71 +10,72 @@ final class SetList
 {
     /**
      * @api
+     * @var string
      */
-    public const string PSR_12 = __DIR__ . '/../../../config/set/psr12.php';
-
+    public const PSR_12 = __DIR__ . '/../../../config/set/psr12.php';
     /**
      * @api
+     * @var string
      */
-    public const string CLEAN_CODE = __DIR__ . '/../../../config/set/clean-code.php';
-
+    public const CLEAN_CODE = __DIR__ . '/../../../config/set/clean-code.php';
     /**
      * @api
+     * @var string
      */
-    public const string SYMPLIFY = __DIR__ . '/../../../config/set/symplify.php';
-
+    public const SYMPLIFY = __DIR__ . '/../../../config/set/symplify.php';
     /**
      * @api
+     * @var string
      */
-    public const string ARRAY = __DIR__ . '/../../../config/set/common/array.php';
-
+    public const ARRAY = __DIR__ . '/../../../config/set/common/array.php';
     /**
      * @api
+     * @var string
      */
-    public const string COMMON = __DIR__ . '/../../../config/set/common.php';
-
+    public const COMMON = __DIR__ . '/../../../config/set/common.php';
     /**
      * @api
+     * @var string
      */
-    public const string COMMENTS = __DIR__ . '/../../../config/set/common/comments.php';
-
+    public const COMMENTS = __DIR__ . '/../../../config/set/common/comments.php';
     /**
      * @api
+     * @var string
      */
-    public const string CONTROL_STRUCTURES = __DIR__ . '/../../../config/set/common/control-structures.php';
-
+    public const CONTROL_STRUCTURES = __DIR__ . '/../../../config/set/common/control-structures.php';
     /**
      * @api
+     * @var string
      */
-    public const string DOCBLOCK = __DIR__ . '/../../../config/set/common/docblock.php';
-
+    public const DOCBLOCK = __DIR__ . '/../../../config/set/common/docblock.php';
     /**
      * @api
+     * @var string
      */
-    public const string NAMESPACES = __DIR__ . '/../../../config/set/common/namespaces.php';
-
+    public const NAMESPACES = __DIR__ . '/../../../config/set/common/namespaces.php';
     /**
      * @api
+     * @var string
      */
-    public const string PHPUNIT = __DIR__ . '/../../../config/set/common/phpunit.php';
-
+    public const PHPUNIT = __DIR__ . '/../../../config/set/common/phpunit.php';
     /**
      * @api
+     * @var string
      */
-    public const string SPACES = __DIR__ . '/../../../config/set/common/spaces.php';
-
+    public const SPACES = __DIR__ . '/../../../config/set/common/spaces.php';
     /**
      * @api
+     * @var string
      */
-    public const string STRICT = __DIR__ . '/../../../config/set/common/strict.php';
-
+    public const STRICT = __DIR__ . '/../../../config/set/common/strict.php';
     /**
      * @api
+     * @var string
      */
-    public const string DOCTRINE_ANNOTATIONS = __DIR__ . '/../../../config/set/doctrine-annotations.php';
-
+    public const DOCTRINE_ANNOTATIONS = __DIR__ . '/../../../config/set/doctrine-annotations.php';
     /**
      * @api
+     * @var string
      */
-    public const string LARAVEL = __DIR__ . '/../../../config/set/laravel.php';
+    public const LARAVEL = __DIR__ . '/../../../config/set/laravel.php';
 }
