@@ -1,26 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Skipper;
 
 final class Fnmatcher
 {
-    public function match(string $matchingPath, string $filePath): bool
+    public function match(string $matchingPath, string $filePath) : bool
     {
         $normalizedMatchingPath = $this->normalizePath($matchingPath);
         $normalizedFilePath = $this->normalizePath($filePath);
-
-        if (fnmatch($normalizedMatchingPath, $normalizedFilePath)) {
-            return true;
+        if (\fnmatch($normalizedMatchingPath, $normalizedFilePath)) {
+            return \true;
         }
-
         // in case of relative compare
-        return fnmatch('*/' . $normalizedMatchingPath, $normalizedFilePath);
+        return \fnmatch('*/' . $normalizedMatchingPath, $normalizedFilePath);
     }
-
-    private function normalizePath(string $path): string
+    private function normalizePath(string $path) : string
     {
-        return str_replace('\\', '/', $path);
+        return \str_replace('\\', '/', $path);
     }
 }

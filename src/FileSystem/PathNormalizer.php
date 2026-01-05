@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\FileSystem;
 
-use Nette\Utils\Strings;
-
+use ECSPrefix202601\Nette\Utils\Strings;
 /**
  * @api
  *
@@ -19,20 +17,21 @@ final class PathNormalizer
 {
     /**
      * @see https://regex101.com/r/d4F5Fm/1
+     * @var string
      */
-    private const string SCHEME_PATH_REGEX = '#^([a-z]+)\\:\\/\\/(.+)#';
-
+    private const SCHEME_PATH_REGEX = '#^([a-z]+)\\:\\/\\/(.+)#';
     /**
      * @see https://regex101.com/r/no28vw/1
+     * @var string
      */
-    private const string TWO_AND_MORE_SLASHES_REGEX = '#/{2,}#';
-
-    private const string SCHEME_UNDEFINED = 'undefined';
-
-    public function normalizePath(string $originalPath): string
+    private const TWO_AND_MORE_SLASHES_REGEX = '#/{2,}#';
+    /**
+     * @var string
+     */
+    private const SCHEME_UNDEFINED = 'undefined';
+    public function normalizePath(string $originalPath) : string
     {
-        $directorySeparator = DIRECTORY_SEPARATOR;
-
+        $directorySeparator = \DIRECTORY_SEPARATOR;
         $matches = Strings::match($originalPath, self::SCHEME_PATH_REGEX);
         if ($matches !== null) {
             [, $scheme, $path] = $matches;
@@ -40,50 +39,39 @@ final class PathNormalizer
             $scheme = self::SCHEME_UNDEFINED;
             $path = $originalPath;
         }
-
-        $normalizedPath = str_replace('\\', '/', (string) $path);
+        $normalizedPath = \str_replace('\\', '/', (string) $path);
         $path = Strings::replace($normalizedPath, self::TWO_AND_MORE_SLASHES_REGEX, '/');
-
-        $pathRoot = str_starts_with($path, '/') ? $directorySeparator : '';
-        $pathParts = explode('/', trim($path, '/'));
-
+        $pathRoot = \strncmp($path, '/', \strlen('/')) === 0 ? $directorySeparator : '';
+        $pathParts = \explode('/', \trim($path, '/'));
         $normalizedPathParts = $this->normalizePathParts($pathParts, $scheme);
-
-        $pathStart = ($scheme !== self::SCHEME_UNDEFINED ? $scheme . '://' : '');
-        return $pathStart . $pathRoot . implode($directorySeparator, $normalizedPathParts);
+        $pathStart = $scheme !== self::SCHEME_UNDEFINED ? $scheme . '://' : '';
+        return $pathStart . $pathRoot . \implode($directorySeparator, $normalizedPathParts);
     }
-
     /**
      * @param string[] $pathParts
      * @return string[]
      */
-    private function normalizePathParts(array $pathParts, string $scheme): array
+    private function normalizePathParts(array $pathParts, string $scheme) : array
     {
         $normalizedPathParts = [];
-
         foreach ($pathParts as $pathPart) {
             if ($pathPart === '.') {
                 continue;
             }
-
             if ($pathPart !== '..') {
                 $normalizedPathParts[] = $pathPart;
                 continue;
             }
-
             /** @var string $removedPart */
-            $removedPart = array_pop($normalizedPathParts);
+            $removedPart = \array_pop($normalizedPathParts);
             if ($scheme !== 'phar') {
                 continue;
             }
-
-            if (! \str_ends_with($removedPart, '.phar')) {
+            if (\substr_compare($removedPart, '.phar', -\strlen('.phar')) !== 0) {
                 continue;
             }
-
             $scheme = self::SCHEME_UNDEFINED;
         }
-
         return $normalizedPathParts;
     }
 }

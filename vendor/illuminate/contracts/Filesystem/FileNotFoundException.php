@@ -1,0 +1,9 @@
+<?php
+
+namespace ECSPrefix202601\Illuminate\Contracts\Filesystem;
+
+use Exception;
+class FileNotFoundException extends Exception
+{
+    //
+}

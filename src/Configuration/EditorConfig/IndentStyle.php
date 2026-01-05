@@ -1,12 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Configuration\EditorConfig;
 
 final class IndentStyle
 {
-    public const string Space = 'space';
-
-    public const string Tab = 'tab';
+    /**
+     * @var string
+     */
+    public const Space = 'space';
+    /**
+     * @var string
+     */
+    public const Tab = 'tab';
 }

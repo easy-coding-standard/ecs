@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * Ensures there is a single space before cast tokens.
+ *
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @copyright 2006-2023 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2023 PHPCSStandards and contributors
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
+ */
+namespace PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+class SpaceBeforeCastSniff implements Sniff
+{
+    /**
+     * Returns an array of tokens this test wants to listen for.
+     *
+     * @return array<int|string>
+     */
+    public function register()
+    {
+        return Tokens::CAST_TOKENS;
+    }
+    /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token in
+     *                                               the stack passed in $tokens.
+     *
+     * @return void
+     */
+    public function process(File $phpcsFile, int $stackPtr)
+    {
+        $tokens = $phpcsFile->getTokens();
+        if ($tokens[$stackPtr]['column'] === 1) {
+            return;
+        }
+        if ($tokens[$stackPtr - 1]['code'] !== \T_WHITESPACE) {
+            $error = 'A cast statement must be preceded by a single space';
+            $fix = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpace');
+            if ($fix === \true) {
+                $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
+            }
+            $phpcsFile->recordMetric($stackPtr, 'Spacing before cast statement', 0);
+            return;
+        }
+        $phpcsFile->recordMetric($stackPtr, 'Spacing before cast statement', $tokens[$stackPtr - 1]['length']);
+        if ($tokens[$stackPtr - 1]['column'] !== 1 && $tokens[$stackPtr - 1]['length'] !== 1) {
+            $error = 'A cast statement must be preceded by a single space';
+            $fix = $phpcsFile->addFixableError($error, $stackPtr, 'TooMuchSpace');
+            if ($fix === \true) {
+                $phpcsFile->fixer->replaceToken($stackPtr - 1, ' ');
+            }
+        }
+    }
+}

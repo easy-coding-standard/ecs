@@ -1,0 +1,44 @@
+<documentation title="Empty PHP Statement">
+    <standard>
+    <![CDATA[
+    Empty PHP tags are not allowed.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: There is at least one statement inside the PHP tag pair.">
+        <![CDATA[
+<?php <em>echo 'Hello World';</em> ?>
+<?= <em>'Hello World';</em> ?>
+        ]]>
+        </code>
+        <code title="Invalid: There is no statement inside the PHP tag pair.">
+        <![CDATA[
+<?php <em>;</em> ?>
+<?= <em></em> ?>
+        ]]>
+        </code>
+    </code_comparison>
+    <standard>
+    <![CDATA[
+    Superfluous semicolons are not allowed.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: There is no superfluous semicolon after a PHP statement.">
+            <![CDATA[
+function_call()<em>;</em>
+if (true) {
+    echo 'Hello World'<em>;</em>
+}
+        ]]>
+        </code>
+        <code title="Invalid: There are one or more superfluous semicolons after a PHP statement.">
+            <![CDATA[
+function_call()<em>;;;</em>
+if (true) {
+    echo 'Hello World';
+}<em>;</em>
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>
