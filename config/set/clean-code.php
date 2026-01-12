@@ -19,9 +19,11 @@ return ECSConfig::configure()
     ->withRules([
         ParamReturnAndVarTagMalformsFixer::class,
         NoUnusedImportsFixer::class,
-        OrderedImportsFixer::class,
         NoEmptyStatementFixer::class,
         ProtectedToPrivateFixer::class,
         NoUnneededControlParenthesesFixer::class,
         NoUnneededCurlyBracesFixer::class,
+    ])
+    ->withConfiguredRule(OrderedImportsFixer::class, [
+        'imports_order' => ['class', 'function', 'const'],
     ]);
