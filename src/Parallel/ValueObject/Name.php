@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
 
 /**
@@ -9,19 +8,36 @@ namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
  */
 final class Name
 {
-    public const string LINE = 'line';
-
-    public const string MESSAGE = 'message';
-
-    public const string CHECKER_CLASS = 'checker_class';
-
-    public const string RELATIVE_FILE_PATH = 'relative_file_path';
-
-    public const string ABSOLUTE_FILE_PATH = 'absolute_file_path';
-
-    public const string DIFF = 'diff';
-
-    public const string DIFF_CONSOLE_FORMATTED = 'diff_console_formatted';
-
-    public const string APPLIED_CHECKERS = 'applied_checkers';
+    /**
+     * @var string
+     */
+    public const LINE = 'line';
+    /**
+     * @var string
+     */
+    public const MESSAGE = 'message';
+    /**
+     * @var string
+     */
+    public const CHECKER_CLASS = 'checker_class';
+    /**
+     * @var string
+     */
+    public const RELATIVE_FILE_PATH = 'relative_file_path';
+    /**
+     * @var string
+     */
+    public const ABSOLUTE_FILE_PATH = 'absolute_file_path';
+    /**
+     * @var string
+     */
+    public const DIFF = 'diff';
+    /**
+     * @var string
+     */
+    public const DIFF_CONSOLE_FORMATTED = 'diff_console_formatted';
+    /**
+     * @var string
+     */
+    public const APPLIED_CHECKERS = 'applied_checkers';
 }

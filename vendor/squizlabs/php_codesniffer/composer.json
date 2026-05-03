@@ -1,0 +1,100 @@
+{
+    "name": "squizlabs\/php_codesniffer",
+    "description": "PHP_CodeSniffer tokenizes PHP files and detects violations of a defined set of coding standards.",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": [
+        "phpcs",
+        "standards",
+        "static analysis"
+    ],
+    "authors": [
+        {
+            "name": "Greg Sherwood",
+            "role": "Former lead"
+        },
+        {
+            "name": "Juliette Reinders Folmer",
+            "role": "Current lead"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer\/graphs\/contributors"
+        }
+    ],
+    "homepage": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer",
+    "support": {
+        "issues": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer\/issues",
+        "wiki": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer\/wiki",
+        "source": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer",
+        "security": "https:\/\/github.com\/PHPCSStandards\/PHP_CodeSniffer\/security\/policy"
+    },
+    "require": {
+        "php": ">=7.2.0",
+        "ext-simplexml": "*",
+        "ext-tokenizer": "*",
+        "ext-xmlwriter": "*"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^8.4.0 || ^9.3.4 || ^10.5.32 || 11.3.3 - 11.5.28 || ^11.5.31"
+    },
+    "bin": [
+        "bin\/phpcbf",
+        "bin\/phpcs"
+    ],
+    "config": {
+        "lock": false
+    },
+    "scripts": {
+        "cs": [
+            "@php .\/bin\/phpcs"
+        ],
+        "cbf": [
+            "@php .\/bin\/phpcbf"
+        ],
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit --no-coverage"
+        ],
+        "test-lte9": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit -c phpunit-lte9.xml.dist --no-coverage"
+        ],
+        "coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit -d max_execution_time=0"
+        ],
+        "coverage-lte9": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit -c phpunit-lte9.xml.dist -d max_execution_time=0"
+        ],
+        "coverage-local": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit --coverage-html .\/build\/coverage-html -d max_execution_time=0"
+        ],
+        "coverage-lte9-local": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .\/vendor\/phpunit\/phpunit\/phpunit -c phpunit-lte9.xml.dist --coverage-html .\/build\/coverage-html -d max_execution_time=0"
+        ],
+        "build": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -d phar.readonly=0 -f .\/scripts\/build-phar.php"
+        ],
+        "check-all": [
+            "@cs",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "cs": "Check for code style violations.",
+        "cbf": "Fix code style violations.",
+        "test": "PHPUnit 10+: Run the unit tests without code coverage.",
+        "test-lte9": "PHPUnit <= 9: Run the unit tests without code coverage.",
+        "coverage": "PHPUnit 10+: Run the unit tests with code coverage.",
+        "coverage-lte9": "PHPUnit <= 9: Run the unit tests with code coverage.",
+        "coverage-local": "PHPUnit 10+: Run the unit tests with code coverage and generate an HTML report in a 'build' directory.",
+        "coverage-lte9-local": "PHPUnit <= 9: Run the unit tests with code coverage and generate an HTML report in a 'build' directory.",
+        "build": "Create PHAR files for PHPCS and PHPCBF.",
+        "check-all": "Run all checks (phpcs, tests)."
+    }
+}

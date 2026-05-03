@@ -1,0 +1,44 @@
+{
+    "name": "entropy\/entropy",
+    "license": "proprietary",
+    "description": "Entropy framework",
+    "require": {
+        "php": "^8.3",
+        "ext-tokenizer": "*",
+        "webmozart\/assert": "^2.1"
+    },
+    "require-dev": {
+        "phpunit\/phpunit": "^12.5",
+        "phpecs\/phpecs": "^2.3",
+        "tracy\/tracy": "^2.11",
+        "phpstan\/phpstan": "^2.1",
+        "symplify\/phpstan-rules": "^14.9",
+        "symplify\/phpstan-extensions": "^12.0",
+        "phpstan\/extension-installer": "^1.4",
+        "tomasvotruba\/type-coverage": "^2.1",
+        "shipmonk\/composer-dependency-analyser": "^1.8",
+        "rector\/rector": "^2.4",
+        "rector\/swiss-knife": "^2.3",
+        "tomasvotruba\/unused-public": "^2.2",
+        "rector\/jack": "^1.0",
+        "symplify\/easy-coding-standard": "^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ECSPrefix202605\\Entropy\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ECSPrefix202605\\Entropy\\Tests\\": "tests",
+            "ECSPrefix202605\\App\\Project\\": [
+                "tests\/Container\/Autodiscovery\/Fixture\/project-with-value-objects\/src"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan\/extension-installer": true
+        }
+    }
+}

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Config\Level;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -21,7 +20,6 @@ use PhpCsFixer\Fixer\Operator\StandardizeIncrementFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
 use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
 use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
-
 /**
  * Key 0 = level 0
  *
@@ -34,47 +32,30 @@ final class ControlStructuresLevel
     /**
      * @var array<class-string<Sniff|FixerInterface>>
      */
-    public const array RULES = [
+    public const RULES = [
         // pure casing / cleanup
         MagicConstantCasingFixer::class,
         SingleQuoteFixer::class,
         PhpUnitMethodCasingFixer::class,
-
         // safe single-token swaps
         IsNullFixer::class,
         FunctionToConstantFixer::class,
         StandardizeIncrementFixer::class,
         NewWithBracesFixer::class,
-
         // string and variable handling
         ExplicitStringVariableFixer::class,
         ExplicitIndirectVariableFixer::class,
-
         // class-level tweaks
         SelfAccessorFixer::class,
         ClassDefinitionFixer::class,
         SingleClassElementPerStatementFixer::class,
-
         // invasive control-flow / ordering changes
         YodaStyleFixer::class,
         NoUselessElseFixer::class,
         OrderedClassElementsFixer::class,
     ];
-
     /**
      * @var array<class-string<Sniff|FixerInterface>, mixed[]>
      */
-    public const array RULE_CONFIGURATIONS = [
-        SingleClassElementPerStatementFixer::class => [
-            'elements' => ['const', 'property'],
-        ],
-        ClassDefinitionFixer::class => [
-            'single_line' => true,
-        ],
-        YodaStyleFixer::class => [
-            'equal' => false,
-            'identical' => false,
-            'less_and_greater' => false,
-        ],
-    ];
+    public const RULE_CONFIGURATIONS = [SingleClassElementPerStatementFixer::class => ['elements' => ['const', 'property']], ClassDefinitionFixer::class => ['single_line' => \true], YodaStyleFixer::class => ['equal' => \false, 'identical' => \false, 'less_and_greater' => \false]];
 }

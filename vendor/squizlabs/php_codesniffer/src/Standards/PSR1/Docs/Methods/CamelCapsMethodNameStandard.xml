@@ -1,0 +1,29 @@
+<documentation title="Method Name">
+    <standard>
+    <![CDATA[
+    Method names MUST be declared in camelCase.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Method name in camelCase.">
+        <![CDATA[
+class Foo
+{
+    private function <em>doBar</em>()
+    {
+    }
+}
+        ]]>
+        </code>
+        <code title="Invalid: Method name not in camelCase.">
+        <![CDATA[
+class Foo
+{
+    private function <em>do_bar</em>()
+    {
+    }
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>
