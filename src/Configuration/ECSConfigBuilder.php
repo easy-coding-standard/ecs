@@ -28,6 +28,7 @@ use Symplify\EasyCodingStandard\Configuration\EditorConfig\QuoteType;
 use Symplify\EasyCodingStandard\Configuration\Levels\LevelRulesResolver;
 use Symplify\EasyCodingStandard\Exception\Configuration\InitializationException;
 use Symplify\EasyCodingStandard\Exception\Configuration\SuperfluousConfigurationException;
+use Symplify\EasyCodingStandard\Exception\DeprecatedException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -252,7 +253,10 @@ final class ECSConfigBuilder
         bool $controlStructures = false,
         /** @see SetList::PHPUNIT */
         bool $phpunit = false,
-        /** @see SetList::STRICT */
+        /**
+         * @deprecated as dangerous without context. Use Rector instead.
+         * @see SetList::STRICT
+         */
         bool $strict = false,
         /** @see SetList::CLEAN_CODE */
         bool $cleanCode = false,
@@ -318,7 +322,10 @@ final class ECSConfigBuilder
         }
 
         if ($strict) {
-            $this->sets[] = SetList::STRICT;
+            // throw exception, as deprecated
+            throw new DeprecatedException(
+                'The "strict" set is deprecated as it is dangerous without context. Use Rector instead to make sure you are not breaking your code'
+            );
         }
 
         if ($cleanCode) {
@@ -646,6 +653,15 @@ final class ECSConfigBuilder
      */
     public function withSets(array $sets): self
     {
+        // report deprecated STRICT set
+        foreach ($sets as $set) {
+            if ($set === SetList::STRICT) {
+                throw new DeprecatedException(
+                    'The "strict" set is deprecated as it is dangerous without context. Use Rector instead to make sure you are not breaking your code'
+                );
+            }
+        }
+
         $this->sets = [...$this->sets, ...$sets];
 
         return $this;
