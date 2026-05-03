@@ -17,10 +17,12 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symfony\Component\Finder\Finder;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\Config\Level\SpacesLevel;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EditorConfigFactory;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EndOfLine;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\IndentStyle;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\QuoteType;
+use Symplify\EasyCodingStandard\Configuration\Levels\LevelRulesResolver;
 use Symplify\EasyCodingStandard\Exception\Configuration\InitializationException;
 use Symplify\EasyCodingStandard\Exception\Configuration\SuperfluousConfigurationException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -89,9 +91,31 @@ final class ECSConfigBuilder
 
     private ?bool $useEditorConfig = null;
 
+    /**
+     * To make sure spaces set and level are not duplicated,
+     * as both contain the same rules.
+     */
+    private ?bool $isSpacesLevelUsed = null;
+
     public function __invoke(ECSConfig $ecsConfig): void
     {
         $this->applyEditorConfigSettings();
+
+        if ($this->isSpacesLevelUsed === true) {
+            if (in_array(SetList::SPACES, $this->sets, true)) {
+                throw new SuperfluousConfigurationException(sprintf(
+                    'Your config already enables the "spaces" set.%sRemove "->withSpacesLevel()" as it only duplicates it, or remove the spaces set.',
+                    PHP_EOL
+                ));
+            }
+
+            if (in_array(SetList::COMMON, $this->sets, true)) {
+                throw new SuperfluousConfigurationException(sprintf(
+                    'Your config already enables the "common" set, which includes the "spaces" set.%sRemove "->withSpacesLevel()" as it only duplicates it, or remove the common set.',
+                    PHP_EOL
+                ));
+            }
+        }
 
         if ($this->sets !== []) {
             $ecsConfig->sets($this->sets);
@@ -709,6 +733,28 @@ final class ECSConfigBuilder
         return $this;
     }
 
+    /**
+     * Raise your spacing coverage from the safest rules
+     * to more affecting ones, one level at a time.
+     */
+    public function withSpacesLevel(int $level): self
+    {
+        $this->isSpacesLevelUsed = true;
+
+        $levelRules = LevelRulesResolver::resolve($level, SpacesLevel::RULES, __METHOD__);
+
+        foreach ($levelRules as $levelRule) {
+            if (isset(SpacesLevel::RULE_CONFIGURATIONS[$levelRule])) {
+                $this->rulesWithConfiguration[$levelRule] = SpacesLevel::RULE_CONFIGURATIONS[$levelRule];
+                continue;
+            }
+
+            $this->rules[] = $levelRule;
+        }
+
+        return $this;
+    }
+
     private function applyEditorConfigSettings(): void
     {
         if (! $this->useEditorConfig) {
@@ -723,7 +769,7 @@ final class ECSConfigBuilder
          * rule, but does not enable the equivalent Sniffer rule, that
          * EditorConfig setting won't be respected. But why would they do that?
          *
-         * @see Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass
+         * @see \Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass
          */
         $editorConfig = (new EditorConfigFactory())->load();
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use function array_map as map;
-use function array_merge as merge;
 use SebastianBergmann\Diff\Chunk;
 use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
@@ -16,6 +14,8 @@ use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardErro
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use function array_map as map;
+use function array_merge as merge;
 
 /**
  * Generates a JSON file containing the Gitlab-supported variant of

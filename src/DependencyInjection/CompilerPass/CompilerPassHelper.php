@@ -27,7 +27,7 @@ final class CompilerPassHelper
         });
     }
 
-    public static function removeCheckerFromContainer(COntainer $container, string $checkerClass): void
+    public static function removeCheckerFromContainer(Container $container, string $checkerClass): void
     {
         // remove instance
         $container->offsetUnset($checkerClass);
