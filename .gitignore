@@ -10,3 +10,7 @@ composer.lock
 rector-local
 
 php-scoper.phar
+
+
+# gpt
+.claude

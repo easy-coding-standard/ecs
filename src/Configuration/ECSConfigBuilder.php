@@ -17,10 +17,12 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symfony\Component\Finder\Finder;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\Config\Level\SpacesLevel;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EditorConfigFactory;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EndOfLine;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\IndentStyle;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\QuoteType;
+use Symplify\EasyCodingStandard\Configuration\Levels\LevelRulesResolver;
 use Symplify\EasyCodingStandard\Exception\Configuration\InitializationException;
 use Symplify\EasyCodingStandard\Exception\Configuration\SuperfluousConfigurationException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -705,6 +707,26 @@ final class ECSConfigBuilder
     public function withRealPathReporting(bool $absolutePath = true): self
     {
         $this->reportingRealPath = $absolutePath;
+
+        return $this;
+    }
+
+    /**
+     * Raise your spacing coverage from the safest rules
+     * to more affecting ones, one level at a time.
+     */
+    public function withSpacesLevel(int $level): self
+    {
+        $levelRules = LevelRulesResolver::resolve($level, SpacesLevel::RULES, __METHOD__);
+
+        foreach ($levelRules as $levelRule) {
+            if (isset(SpacesLevel::RULE_CONFIGURATIONS[$levelRule])) {
+                $this->rulesWithConfiguration[$levelRule] = SpacesLevel::RULE_CONFIGURATIONS[$levelRule];
+                continue;
+            }
+
+            $this->rules[] = $levelRule;
+        }
 
         return $this;
     }
