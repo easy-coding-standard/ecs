@@ -56,6 +56,7 @@ final class SetList
 
     /**
      * @api
+     * @deprecated as dangerous without context. Use Rector instead.
      */
     public const string PHPUNIT = __DIR__ . '/../../../config/set/common/phpunit.php';
 

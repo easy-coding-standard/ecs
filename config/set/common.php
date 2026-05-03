@@ -12,7 +12,6 @@ return ECSConfig::configure()
         SetList::CONTROL_STRUCTURES,
         SetList::DOCBLOCK,
         SetList::NAMESPACES,
-        SetList::PHPUNIT,
         SetList::SPACES,
         SetList::CLEAN_CODE,
     ]);

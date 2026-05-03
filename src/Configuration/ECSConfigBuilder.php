@@ -251,7 +251,10 @@ final class ECSConfigBuilder
         bool $namespaces = false,
         /** @see SetList::CONTROL_STRUCTURES */
         bool $controlStructures = false,
-        /** @see SetList::PHPUNIT */
+        /**
+         * @deprecated as never worked, used different rules. Use Rector instead.
+         * @see SetList::PHPUNIT
+         */
         bool $phpunit = false,
         /**
          * @deprecated as dangerous without context. Use Rector instead.
@@ -281,7 +284,6 @@ final class ECSConfigBuilder
                 'namespaces' => $namespaces,
                 'docblocks' => $docblocks,
                 'controlStructures' => $controlStructures,
-                'phpunit' => $phpunit,
                 'comments' => $comments,
             ]))) !== []) {
                 throw new SuperfluousConfigurationException(
@@ -313,7 +315,9 @@ final class ECSConfigBuilder
             }
 
             if ($phpunit) {
-                $this->sets[] = SetList::PHPUNIT;
+                throw new DeprecatedException(
+                    'The "phpunit" set is deprecated as it is dangerous to run without proper context. Please use Rector instead.'
+                );
             }
 
             if ($comments) {
@@ -658,6 +662,12 @@ final class ECSConfigBuilder
             if ($set === SetList::STRICT) {
                 throw new DeprecatedException(
                     'The "strict" set is deprecated as it is dangerous without context. Use Rector instead to make sure you are not breaking your code'
+                );
+            }
+
+            if ($set === SetList::PHPUNIT) {
+                throw new DeprecatedException(
+                    'The "phpunit" set is deprecated as it is dangerous to run without proper context. Please use Rector instead.'
                 );
             }
         }
