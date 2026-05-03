@@ -18,7 +18,7 @@
         "entropy/entropy": "dev-main",
         "friendsofphp/php-cs-fixer": "^3.95.1|^4.0",
         "illuminate/container": "12.39.*",
-        "nette/utils": "4.0.*",
+        "nette/utils": "4.0.8",
         "sebastian/diff": "^6.0|^7.0",
         "squizlabs/php_codesniffer": "^4.0.1",
         "symfony/console": "^6.4.24",
