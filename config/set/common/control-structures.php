@@ -2,46 +2,13 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer;
-use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
-use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
-use PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer;
-use PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer;
-use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
-use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
-use PhpCsFixer\Fixer\LanguageConstruct\ExplicitIndirectVariableFixer;
-use PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer;
-use PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer;
-use PhpCsFixer\Fixer\Operator\NewWithBracesFixer;
-use PhpCsFixer\Fixer\Operator\StandardizeIncrementFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
-use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
-use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\Config\Level\ControlStructuresLevel;
 
-return ECSConfig::configure()
-    ->withRules([
-        PhpUnitMethodCasingFixer::class,
-        FunctionToConstantFixer::class,
-        ExplicitStringVariableFixer::class,
-        ExplicitIndirectVariableFixer::class,
-        NewWithBracesFixer::class,
-        StandardizeIncrementFixer::class,
-        SelfAccessorFixer::class,
-        MagicConstantCasingFixer::class,
-        NoUselessElseFixer::class,
-        SingleQuoteFixer::class,
-        OrderedClassElementsFixer::class,
-        IsNullFixer::class,
-    ])
-    ->withConfiguredRule(SingleClassElementPerStatementFixer::class, [
-        'elements' => ['const', 'property'],
-    ])
-    ->withConfiguredRule(ClassDefinitionFixer::class, [
-        'single_line' => true,
-    ])
-    ->withConfiguredRule(YodaStyleFixer::class, [
-        'equal' => false,
-        'identical' => false,
-        'less_and_greater' => false,
-    ]);
+return static function (ECSConfig $ecsConfig): void {
+    // the rule order matters, as it's used in withControlStructuresLevel() method
+    // place the safest rules first, follow by more complex ones
+    $ecsConfig->rules(ControlStructuresLevel::RULES);
+
+    $ecsConfig->rulesWithConfiguration(ControlStructuresLevel::RULE_CONFIGURATIONS);
+};
