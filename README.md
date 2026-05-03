@@ -94,6 +94,25 @@ return ECSConfig::configure()
 
 <br>
 
+### Gradual Adoption with Levels
+
+Want to adopt a coding standard step by step instead of all at once? Use `with*Level()` methods to start from the safest rules and raise the level as your codebase catches up:
+
+```php
+use Symplify\EasyCodingStandard\Config\ECSConfig;
+
+return ECSConfig::configure()
+    ->withPaths([__DIR__ . '/src', __DIR__ . '/tests'])
+    ->withSpacesLevel(0)
+    ->withArrayLevel(0)
+    ->withControlStructuresLevel(0)
+    ->withDocblockLevel(0);
+```
+
+Each level enables the first N+1 rules from a curated list, ordered from safest to most invasive. Bump the number once your codebase is clean on the current level.
+
+<br>
+
 ### How to Skip Files/Rules?
 
 Love the sets of rules, but want to skip single rule or some files?

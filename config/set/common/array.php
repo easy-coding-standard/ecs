@@ -2,36 +2,13 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
-use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
-use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
-use PhpCsFixer\Fixer\Basic\NoTrailingCommaInSinglelineFixer;
-use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
-use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
-use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
-use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
-use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\Config\Level\ArrayLevel;
 
-return ECSConfig::configure()
-    ->withRules([
-        NoWhitespaceBeforeCommaInArrayFixer::class,
-        ArrayOpenerAndCloserNewlineFixer::class,
-        ArrayIndentationFixer::class,
-        TrimArraySpacesFixer::class,
-        WhitespaceAfterCommaInArrayFixer::class,
-        ArrayListItemNewlineFixer::class,
-        StandaloneLineInMultilineArrayFixer::class,
-    ])
+return static function (ECSConfig $ecsConfig): void {
+    // the rule order matters, as it's used in withArrayLevel() method
+    // place the safest rules first, follow by more complex ones
+    $ecsConfig->rules(ArrayLevel::RULES);
 
-    // commas
-    ->withConfiguredRule(NoTrailingCommaInSinglelineFixer::class, [
-        'elements' => ['arguments', 'array_destructuring', 'array', 'group_import'],
-    ])
-    ->withConfiguredRule(TrailingCommaInMultilineFixer::class, [
-        'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
-    ])
-    ->withConfiguredRule(ArraySyntaxFixer::class, [
-        'syntax' => 'short',
-    ]);
+    $ecsConfig->rulesWithConfiguration(ArrayLevel::RULE_CONFIGURATIONS);
+};

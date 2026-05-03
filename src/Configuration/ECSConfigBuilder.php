@@ -17,6 +17,9 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symfony\Component\Finder\Finder;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\Config\Level\ArrayLevel;
+use Symplify\EasyCodingStandard\Config\Level\ControlStructuresLevel;
+use Symplify\EasyCodingStandard\Config\Level\DocblockLevel;
 use Symplify\EasyCodingStandard\Config\Level\SpacesLevel;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EditorConfigFactory;
 use Symplify\EasyCodingStandard\Configuration\EditorConfig\EndOfLine;
@@ -92,30 +95,38 @@ final class ECSConfigBuilder
     private ?bool $useEditorConfig = null;
 
     /**
-     * To make sure spaces set and level are not duplicated,
-     * as both contain the same rules.
+     * To make sure each common set and its corresponding level are not
+     * duplicated, as both contain the same rules.
      */
+    private ?bool $isArrayLevelUsed = null;
+
+    private ?bool $isControlStructuresLevelUsed = null;
+
+    private ?bool $isDocblockLevelUsed = null;
+
     private ?bool $isSpacesLevelUsed = null;
 
     public function __invoke(ECSConfig $ecsConfig): void
     {
         $this->applyEditorConfigSettings();
 
-        if ($this->isSpacesLevelUsed === true) {
-            if (in_array(SetList::SPACES, $this->sets, true)) {
-                throw new SuperfluousConfigurationException(sprintf(
-                    'Your config already enables the "spaces" set.%sRemove "->withSpacesLevel()" as it only duplicates it, or remove the spaces set.',
-                    PHP_EOL
-                ));
-            }
+        $this->assertLevelAndSetNotMixed($this->isArrayLevelUsed, SetList::ARRAY, 'array', 'withArrayLevel');
 
-            if (in_array(SetList::COMMON, $this->sets, true)) {
-                throw new SuperfluousConfigurationException(sprintf(
-                    'Your config already enables the "common" set, which includes the "spaces" set.%sRemove "->withSpacesLevel()" as it only duplicates it, or remove the common set.',
-                    PHP_EOL
-                ));
-            }
-        }
+        $this->assertLevelAndSetNotMixed(
+            $this->isControlStructuresLevelUsed,
+            SetList::CONTROL_STRUCTURES,
+            'control structures',
+            'withControlStructuresLevel'
+        );
+
+        $this->assertLevelAndSetNotMixed(
+            $this->isDocblockLevelUsed,
+            SetList::DOCBLOCK,
+            'docblock',
+            'withDocblockLevel'
+        );
+
+        $this->assertLevelAndSetNotMixed($this->isSpacesLevelUsed, SetList::SPACES, 'spaces', 'withSpacesLevel');
 
         if ($this->sets !== []) {
             $ecsConfig->sets($this->sets);
@@ -740,19 +751,98 @@ final class ECSConfigBuilder
     public function withSpacesLevel(int $level): self
     {
         $this->isSpacesLevelUsed = true;
+        $this->applyLevel($level, SpacesLevel::RULES, SpacesLevel::RULE_CONFIGURATIONS, __METHOD__);
 
-        $levelRules = LevelRulesResolver::resolve($level, SpacesLevel::RULES, __METHOD__);
+        return $this;
+    }
+
+    /**
+     * Raise your array coverage from the safest rules
+     * to more affecting ones, one level at a time.
+     */
+    public function withArrayLevel(int $level): self
+    {
+        $this->isArrayLevelUsed = true;
+        $this->applyLevel($level, ArrayLevel::RULES, ArrayLevel::RULE_CONFIGURATIONS, __METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * Raise your control structures coverage from the safest rules
+     * to more affecting ones, one level at a time.
+     */
+    public function withControlStructuresLevel(int $level): self
+    {
+        $this->isControlStructuresLevelUsed = true;
+        $this->applyLevel(
+            $level,
+            ControlStructuresLevel::RULES,
+            ControlStructuresLevel::RULE_CONFIGURATIONS,
+            __METHOD__
+        );
+
+        return $this;
+    }
+
+    /**
+     * Raise your docblock coverage from the safest rules
+     * to more affecting ones, one level at a time.
+     */
+    public function withDocblockLevel(int $level): self
+    {
+        $this->isDocblockLevelUsed = true;
+        $this->applyLevel($level, DocblockLevel::RULES, DocblockLevel::RULE_CONFIGURATIONS, __METHOD__);
+
+        return $this;
+    }
+
+    /**
+     * @param array<class-string<Sniff|FixerInterface>> $rules
+     * @param array<class-string<Sniff|FixerInterface>, mixed[]> $ruleConfigurations
+     */
+    private function applyLevel(int $level, array $rules, array $ruleConfigurations, string $method): void
+    {
+        $levelRules = LevelRulesResolver::resolve($level, $rules, $method);
 
         foreach ($levelRules as $levelRule) {
-            if (isset(SpacesLevel::RULE_CONFIGURATIONS[$levelRule])) {
-                $this->rulesWithConfiguration[$levelRule] = SpacesLevel::RULE_CONFIGURATIONS[$levelRule];
+            if (isset($ruleConfigurations[$levelRule])) {
+                $this->rulesWithConfiguration[$levelRule] = $ruleConfigurations[$levelRule];
                 continue;
             }
 
             $this->rules[] = $levelRule;
         }
+    }
 
-        return $this;
+    private function assertLevelAndSetNotMixed(
+        ?bool $isLevelUsed,
+        string $setConst,
+        string $setLabel,
+        string $methodName
+    ): void {
+        if ($isLevelUsed !== true) {
+            return;
+        }
+
+        if (in_array($setConst, $this->sets, true)) {
+            throw new SuperfluousConfigurationException(sprintf(
+                'Your config already enables the "%s" set.%sRemove "->%s()" as it only duplicates it, or remove the "%s" set.',
+                $setLabel,
+                PHP_EOL,
+                $methodName,
+                $setLabel
+            ));
+        }
+
+        if (in_array(SetList::COMMON, $this->sets, true)) {
+            throw new SuperfluousConfigurationException(sprintf(
+                'Your config already enables the "common" set, which includes the "%s" set.%sRemove "->%s()" as it only duplicates it, or remove the "common" set.',
+                $setLabel,
+                PHP_EOL,
+                $methodName
+            ));
+        }
     }
 
     private function applyEditorConfigSettings(): void
