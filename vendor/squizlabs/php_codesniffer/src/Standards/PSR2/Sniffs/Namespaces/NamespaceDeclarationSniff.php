@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Ensures namespaces are declared correctly.
+ *
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @copyright 2006-2023 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2023 PHPCSStandards and contributors
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
+ */
+namespace PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+class NamespaceDeclarationSniff implements Sniff
+{
+    /**
+     * Returns an array of tokens this test wants to listen for.
+     *
+     * @return array<int|string>
+     */
+    public function register()
+    {
+        return [\T_NAMESPACE];
+    }
+    /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+     * @param int                         $stackPtr  The position of the current token in
+     *                                               the stack passed in $tokens.
+     *
+     * @return void
+     */
+    public function process(File $phpcsFile, int $stackPtr)
+    {
+        $tokens = $phpcsFile->getTokens();
+        $end = $phpcsFile->findEndOfStatement($stackPtr);
+        for ($i = $end + 1; $i < $phpcsFile->numTokens - 1; $i++) {
+            if ($tokens[$i]['line'] === $tokens[$end]['line']) {
+                continue;
+            }
+            break;
+        }
+        // The $i var now points to the first token on the line after the
+        // namespace declaration, which must be a blank line.
+        $next = $phpcsFile->findNext(\T_WHITESPACE, $i, $phpcsFile->numTokens, \true);
+        if ($next === \false) {
+            return;
+        }
+        $diff = $tokens[$next]['line'] - $tokens[$i]['line'];
+        if ($diff === 1) {
+            return;
+        }
+        if ($diff < 0) {
+            $diff = 0;
+        }
+        $error = 'There must be one blank line after the namespace declaration';
+        $fix = $phpcsFile->addFixableError($error, $stackPtr, 'BlankLineAfter');
+        if ($fix === \true) {
+            if ($diff === 0) {
+                $phpcsFile->fixer->addNewlineBefore($i);
+            } else {
+                $phpcsFile->fixer->beginChangeset();
+                for ($x = $i; $x < $next; $x++) {
+                    if ($tokens[$x]['line'] === $tokens[$next]['line']) {
+                        break;
+                    }
+                    $phpcsFile->fixer->replaceToken($x, '');
+                }
+                $phpcsFile->fixer->addNewline($i);
+                $phpcsFile->fixer->endChangeset();
+            }
+        }
+    }
+}

@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\FixerRunner\Parser;
 
-use Nette\Utils\FileSystem;
+use ECSPrefix202605\Nette\Utils\FileSystem;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-
 final class FileToTokensParser
 {
     /**

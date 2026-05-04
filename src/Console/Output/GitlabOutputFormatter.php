@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use SebastianBergmann\Diff\Chunk;
-use SebastianBergmann\Diff\Line;
-use SebastianBergmann\Diff\Parser as DiffParser;
+use ECSPrefix202605\SebastianBergmann\Diff\Chunk;
+use ECSPrefix202605\SebastianBergmann\Diff\Line;
+use ECSPrefix202605\SebastianBergmann\Diff\Parser as DiffParser;
 use Symplify\EasyCodingStandard\Console\ExitCode;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
@@ -16,7 +15,6 @@ use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use function array_map as map;
 use function array_merge as merge;
-
 /**
  * Generates a JSON file containing the Gitlab-supported variant of
  * "Code Climate" issues for all unresolved errors.
@@ -62,25 +60,37 @@ use function array_merge as merge;
  *     },
  * }
  */
-final readonly class GitlabOutputFormatter implements OutputFormatterInterface
+final class GitlabOutputFormatter implements OutputFormatterInterface
 {
-    public function __construct(
-        private EasyCodingStandardStyle $easyCodingStandardStyle,
-        private ExitCodeResolver $exitCodeResolver,
-        private DiffParser $diffParser,
-    ) {
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle
+     */
+    private $easyCodingStandardStyle;
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Console\Output\ExitCodeResolver
+     */
+    private $exitCodeResolver;
+    /**
+     * @readonly
+     * @var DiffParser
+     */
+    private $diffParser;
+    public function __construct(EasyCodingStandardStyle $easyCodingStandardStyle, \Symplify\EasyCodingStandard\Console\Output\ExitCodeResolver $exitCodeResolver, DiffParser $diffParser)
+    {
+        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+        $this->exitCodeResolver = $exitCodeResolver;
+        $this->diffParser = $diffParser;
     }
-
     public static function getName(): string
     {
         return 'gitlab';
     }
-
     public static function hasSupportForProgressBars(): bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @return ExitCode::*
      */
@@ -90,123 +100,51 @@ final readonly class GitlabOutputFormatter implements OutputFormatterInterface
         $this->easyCodingStandardStyle->writeln($output);
         return $this->exitCodeResolver->resolve($errorAndDiffResult, $configuration);
     }
-
     public function generateReport(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): string
     {
-        $reportedQualityIssues = (! $configuration->isFixer() && $configuration->shouldShowDiffs())
-            ? merge(
-                $this->generateIssuesForErrors(
-                    $errorAndDiffResult->getErrors(),
-                    $configuration->isReportingWithRealPath()
-                ),
-                $this->generateIssuesForFixes(
-                    $errorAndDiffResult->getFileDiffs(),
-                    $configuration->isReportingWithRealPath()
-                ),
-            )
-            : $this->generateIssuesForErrors(
-                $errorAndDiffResult->getErrors(),
-                $configuration->isReportingWithRealPath()
-            );
-
+        $reportedQualityIssues = !$configuration->isFixer() && $configuration->shouldShowDiffs() ? merge($this->generateIssuesForErrors($errorAndDiffResult->getErrors(), $configuration->isReportingWithRealPath()), $this->generateIssuesForFixes($errorAndDiffResult->getFileDiffs(), $configuration->isReportingWithRealPath())) : $this->generateIssuesForErrors($errorAndDiffResult->getErrors(), $configuration->isReportingWithRealPath());
         return $this->encode($reportedQualityIssues);
     }
-
     /**
      * @param CodingStandardError[] $errors
      * @return GitlabIssue[]
      */
-    private function generateIssuesForErrors(array $errors, bool $absoluteFilePath = false): array
+    private function generateIssuesForErrors(array $errors, bool $absoluteFilePath = \false): array
     {
-        return map(
-            fn (CodingStandardError $codingStandardError): array => [
-                'type' => 'issue',
-                'description' => $codingStandardError->getMessage(),
-                'check_name' => $codingStandardError->getCheckerClass(),
-                'fingerprint' => $this->generateFingerprint(
-                    $codingStandardError->getCheckerClass(),
-                    $codingStandardError->getMessage(),
-                    $codingStandardError->getRelativeFilePath(),
-                ),
-                'severity' => 'minor',
-                'categories' => ['Style'],
-                'location' => [
-                    'path' => $absoluteFilePath ? $codingStandardError->getAbsoluteFilePath() ?? '' : $codingStandardError->getRelativeFilePath(),
-                    'lines' => [
-                        'begin' => $codingStandardError->getLine(),
-                        'end' => $codingStandardError->getLine(),
-                    ],
-                ],
-            ],
-            $errors,
-        );
+        return map(function (CodingStandardError $codingStandardError) use ($absoluteFilePath): array {
+            return ['type' => 'issue', 'description' => $codingStandardError->getMessage(), 'check_name' => $codingStandardError->getCheckerClass(), 'fingerprint' => $this->generateFingerprint($codingStandardError->getCheckerClass(), $codingStandardError->getMessage(), $codingStandardError->getRelativeFilePath()), 'severity' => 'minor', 'categories' => ['Style'], 'location' => ['path' => $absoluteFilePath ? $codingStandardError->getAbsoluteFilePath() ?? '' : $codingStandardError->getRelativeFilePath(), 'lines' => ['begin' => $codingStandardError->getLine(), 'end' => $codingStandardError->getLine()]]];
+        }, $errors);
     }
-
     /**
      * Reports each chunk of changes as a separate issue.
      *
      * @param FileDiff[] $diffs
      * @return GitlabIssue[]
      */
-    private function generateIssuesForFixes(array $diffs, bool $absoluteFilePath = false): array
+    private function generateIssuesForFixes(array $diffs, bool $absoluteFilePath = \false): array
     {
-        return merge(
-            ...map(
-                fn (FileDiff $fileDiff): array => map(
-                    fn (Chunk $chunk): array => $this->generateIssueForChunk($fileDiff, $chunk, $absoluteFilePath),
-                    $this->diffParser->parse($fileDiff->getDiff())[0]
-                        ->chunks(),
-                ),
-                $diffs,
-            ),
-        );
+        return merge(...map(function (FileDiff $fileDiff) use ($absoluteFilePath): array {
+            return map(function (Chunk $chunk) use ($fileDiff, $absoluteFilePath): array {
+                return $this->generateIssueForChunk($fileDiff, $chunk, $absoluteFilePath);
+            }, $this->diffParser->parse($fileDiff->getDiff())[0]->chunks());
+        }, $diffs));
     }
-
     /**
      * @return GitlabIssue
      */
     private function generateIssueForChunk(FileDiff $fileDiff, Chunk $chunk, bool $absoluteFilePath): array
     {
         $checkersAsFqcns = implode(',', $fileDiff->getAppliedCheckers());
-        $checkersAsClasses = implode(', ', map(
-            static fn (string $checker): string => preg_replace('/.*\\\/', '', $checker) ?? $checker,
-            $fileDiff->getAppliedCheckers(),
-        ));
-
+        $checkersAsClasses = implode(', ', map(static function (string $checker): string {
+            return preg_replace('/.*\\\\/', '', $checker) ?? $checker;
+        }, $fileDiff->getAppliedCheckers()));
         $message = 'Chunk has fixable errors: ' . $checkersAsClasses;
         $lineStart = $chunk->start();
         $lineEnd = $lineStart + $chunk->startRange() - 1;
-
-        return [
-            'type' => 'issue',
-            'description' => $message,
-            'check_name' => $checkersAsFqcns,
-            'fingerprint' => $this->generateFingerprint(
-                $checkersAsFqcns,
-                $message,
-                $fileDiff->getRelativeFilePath(),
-                implode(
-                    '\n',
-                    map(static fn (Line $line): string => sprintf(
-                        '%d:%s',
-                        $line->type(),
-                        $line->content()
-                    ), $chunk->lines())
-                ),
-            ),
-            'severity' => 'minor',
-            'categories' => ['Style'],
-            'remediation_points' => 50_000,
-            'location' => [
-                'path' => $absoluteFilePath ? $fileDiff->getAbsoluteFilePath() ?? '' : $fileDiff->getRelativeFilePath(),
-                'lines' => [
-                    'begin' => $lineStart,
-                    'end' => $lineEnd,
-                ],
-            ],
-        ];
+        return ['type' => 'issue', 'description' => $message, 'check_name' => $checkersAsFqcns, 'fingerprint' => $this->generateFingerprint($checkersAsFqcns, $message, $fileDiff->getRelativeFilePath(), implode('\n', map(static function (Line $line): string {
+            return sprintf('%d:%s', $line->type(), $line->content());
+        }, $chunk->lines()))), 'severity' => 'minor', 'categories' => ['Style'], 'remediation_points' => 50000, 'location' => ['path' => $absoluteFilePath ? $fileDiff->getAbsoluteFilePath() ?? '' : $fileDiff->getRelativeFilePath(), 'lines' => ['begin' => $lineStart, 'end' => $lineEnd]]];
     }
-
     /**
      * Generate a fingerprint for a given quality issue. This is used to
      * track the presence of an issue between runs, so it should be unique
@@ -220,12 +158,8 @@ final readonly class GitlabOutputFormatter implements OutputFormatterInterface
      * lines are added/removed the lines below it will be reported as
      * new errors.
      */
-    private function generateFingerprint(
-        string $checker,
-        string $message,
-        string $relativeFilePath,
-        string $salt = '',
-    ): string {
+    private function generateFingerprint(string $checker, string $message, string $relativeFilePath, string $salt = ''): string
+    {
         // We implode to add a separator that cannot show up in PHP
         // class names or Linux file names and SHOULD  never show up in
         // messages. This guarantees the same fingerprint won't be generated
@@ -233,17 +167,13 @@ final readonly class GitlabOutputFormatter implements OutputFormatterInterface
         //
         // (ABC + ABC = ABCABC) == (ABCA + BC = ABCABC)
         // (ABC + \0 + ABC = ABC\0ABC) != (ABCA + \0 + BC = ABCA\0BC)
-        return md5(implode("\0", [$checker, $message, $relativeFilePath, $salt]));
+        return md5(implode("\x00", [$checker, $message, $relativeFilePath, $salt]));
     }
-
     /**
      * @param GitlabIssue[] $lineItems
      */
     private function encode(array $lineItems): string
     {
-        return json_encode(
-            $lineItems,
-            JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-        );
+        return json_encode($lineItems, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
     }
 }

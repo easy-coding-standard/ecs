@@ -1,18 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Caching;
 
 use Symplify\EasyCodingStandard\Caching\ValueObject\Storage\FileCacheStorage;
-
-final readonly class Cache
+final class Cache
 {
-    public function __construct(
-        private FileCacheStorage $fileCacheStorage
-    ) {
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Caching\ValueObject\Storage\FileCacheStorage
+     */
+    private $fileCacheStorage;
+    public function __construct(FileCacheStorage $fileCacheStorage)
+    {
+        $this->fileCacheStorage = $fileCacheStorage;
     }
-
     /**
      * @api
      */
@@ -20,7 +22,6 @@ final readonly class Cache
     {
         return $this->fileCacheStorage->load($key, $variableKey);
     }
-
     /**
      * @api
      */
@@ -28,12 +29,10 @@ final readonly class Cache
     {
         $this->fileCacheStorage->save($key, $variableKey, $data);
     }
-
     public function clear(): void
     {
         $this->fileCacheStorage->clear();
     }
-
     public function clean(string $cacheKey): void
     {
         $this->fileCacheStorage->clean($cacheKey);

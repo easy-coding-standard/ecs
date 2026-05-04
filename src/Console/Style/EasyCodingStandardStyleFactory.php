@@ -1,48 +1,45 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Console\Style;
 
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Terminal;
-
+use ECSPrefix202605\Symfony\Component\Console\Input\ArgvInput;
+use ECSPrefix202605\Symfony\Component\Console\Input\InputInterface;
+use ECSPrefix202605\Symfony\Component\Console\Output\ConsoleOutput;
+use ECSPrefix202605\Symfony\Component\Console\Output\OutputInterface;
+use ECSPrefix202605\Symfony\Component\Console\Terminal;
 /**
  * @api
  */
-final readonly class EasyCodingStandardStyleFactory
+final class EasyCodingStandardStyleFactory
 {
-    public function __construct(
-        private Terminal $terminal
-    ) {
+    /**
+     * @readonly
+     * @var \Symfony\Component\Console\Terminal
+     */
+    private $terminal;
+    public function __construct(Terminal $terminal)
+    {
+        $this->terminal = $terminal;
     }
-
     /**
      * @api
      */
-    public function create(): EasyCodingStandardStyle
+    public function create(): \Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle
     {
         $argvInput = new ArgvInput();
         $consoleOutput = new ConsoleOutput();
-
         $this->applySymfonyConsoleArgs($argvInput, $consoleOutput);
-
         // --debug is called
         if ($argvInput->hasParameterOption('--debug')) {
             $consoleOutput->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         }
-
         // disable output for tests
         if (defined('PHPUNIT_COMPOSER_INSTALL')) {
             $consoleOutput->setVerbosity(OutputInterface::VERBOSITY_QUIET);
         }
-
-        return new EasyCodingStandardStyle($argvInput, $consoleOutput, $this->terminal);
+        return new \Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle($argvInput, $consoleOutput, $this->terminal);
     }
-
     /**
      * This method was derived from the `Application::configureIO` method of the Symfony Console
      * component, under the MIT license. See NOTICE for the full license.
@@ -51,27 +48,39 @@ final readonly class EasyCodingStandardStyleFactory
      */
     private function applySymfonyConsoleArgs(InputInterface $input, OutputInterface $output): void
     {
-        $enableAnsi = $input->hasParameterOption(['--ansi'], true);
-        $disableAnsi = $input->hasParameterOption(['--no-ansi'], true);
-
-        match (true) {
-            $enableAnsi => $output->setDecorated(true),
-            $disableAnsi => $output->setDecorated(false),
-            default => null,
-        };
-
-        $enableQuiet = $input->hasParameterOption(['--quiet', '-q'], true);
-
-        $isVVV = $input->hasParameterOption('-vvv', true);
-        $isVV = $input->hasParameterOption('-vv', true);
-        $isV = $input->hasParameterOption('-v', true);
-
-        match (true) {
-            $enableQuiet => $output->setVerbosity(OutputInterface::VERBOSITY_QUIET),
-            $isVVV => $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG),
-            $isVV => $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE),
-            $isV => $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE),
-            default => null,
-        };
+        $enableAnsi = $input->hasParameterOption(['--ansi'], \true);
+        $disableAnsi = $input->hasParameterOption(['--no-ansi'], \true);
+        switch (\true) {
+            case $enableAnsi:
+                $output->setDecorated(\true);
+                break;
+            case $disableAnsi:
+                $output->setDecorated(\false);
+                break;
+            default:
+                null;
+                break;
+        }
+        $enableQuiet = $input->hasParameterOption(['--quiet', '-q'], \true);
+        $isVVV = $input->hasParameterOption('-vvv', \true);
+        $isVV = $input->hasParameterOption('-vv', \true);
+        $isV = $input->hasParameterOption('-v', \true);
+        switch (\true) {
+            case $enableQuiet:
+                $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+                break;
+            case $isVVV:
+                $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+                break;
+            case $isVV:
+                $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
+                break;
+            case $isV:
+                $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+                break;
+            default:
+                null;
+                break;
+        }
     }
 }

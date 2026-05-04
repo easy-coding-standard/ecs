@@ -1,0 +1,166 @@
+<?php
+
+/**
+ * Check & fix whitespace on the inside of arbitrary parentheses.
+ *
+ * Arbitrary parentheses are those which are not owned by a function (call), array or control structure.
+ * Spacing on the outside is not checked on purpose as this would too easily conflict with other spacing rules.
+ *
+ * @author    Juliette Reinders Folmer <phpcs_nospam@adviesenzo.nl>
+ * @copyright 2017 Juliette Reinders Folmer. All rights reserved.
+ * @copyright 2023 PHPCSStandards and contributors
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
+ */
+namespace PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+class ArbitraryParenthesesSpacingSniff implements Sniff
+{
+    /**
+     * Tokens which when they precede an open parenthesis indicate
+     * that this is a type of structure this sniff should ignore.
+     *
+     * @var array<int|string, int|string>
+     */
+    private const IGNORE_TOKENS = Tokens::FUNCTION_NAME_TOKENS + [\T_VARIABLE => \T_VARIABLE, \T_CLOSE_PARENTHESIS => \T_CLOSE_PARENTHESIS, \T_CLOSE_CURLY_BRACKET => \T_CLOSE_CURLY_BRACKET, \T_CLOSE_SQUARE_BRACKET => \T_CLOSE_SQUARE_BRACKET, \T_CLOSE_SHORT_ARRAY => \T_CLOSE_SHORT_ARRAY, \T_THROW => \T_THROW, \T_YIELD => \T_YIELD, \T_YIELD_FROM => \T_YIELD_FROM, \T_CLONE => \T_CLONE];
+    /**
+     * The number of spaces desired on the inside of the parentheses.
+     *
+     * @var integer
+     */
+    public $spacing = 0;
+    /**
+     * Allow newlines instead of spaces.
+     *
+     * @var boolean
+     */
+    public $ignoreNewlines = \false;
+    /**
+     * Returns an array of tokens this test wants to listen for.
+     *
+     * @return array<int|string>
+     */
+    public function register()
+    {
+        return [\T_OPEN_PARENTHESIS, \T_CLOSE_PARENTHESIS];
+    }
+    /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile All the tokens found in the document.
+     * @param int                         $stackPtr  The position of the current token in
+     *                                               the stack passed in $tokens.
+     *
+     * @return void|int
+     */
+    public function process(File $phpcsFile, int $stackPtr)
+    {
+        $tokens = $phpcsFile->getTokens();
+        if (isset($tokens[$stackPtr]['parenthesis_owner']) === \true) {
+            // This parenthesis is owned by a function/control structure etc.
+            return;
+        }
+        // More checking for the type of parenthesis we *don't* want to handle.
+        $opener = $stackPtr;
+        if ($tokens[$stackPtr]['code'] === \T_CLOSE_PARENTHESIS) {
+            if (isset($tokens[$stackPtr]['parenthesis_opener']) === \false) {
+                // Parse error.
+                return;
+            }
+            $opener = $tokens[$stackPtr]['parenthesis_opener'];
+        }
+        $preOpener = $phpcsFile->findPrevious(Tokens::EMPTY_TOKENS, $opener - 1, null, \true);
+        if ($preOpener !== \false && isset(self::IGNORE_TOKENS[$tokens[$preOpener]['code']]) === \true && ($tokens[$preOpener]['code'] !== \T_CLOSE_CURLY_BRACKET || isset($tokens[$preOpener]['scope_condition']) === \false)) {
+            // Function or language construct call.
+            return;
+        }
+        // Check for empty parentheses.
+        if ($tokens[$stackPtr]['code'] === \T_OPEN_PARENTHESIS && isset($tokens[$stackPtr]['parenthesis_closer']) === \true) {
+            $nextNonEmpty = $phpcsFile->findNext(\T_WHITESPACE, $stackPtr + 1, null, \true);
+            if ($nextNonEmpty === $tokens[$stackPtr]['parenthesis_closer']) {
+                $phpcsFile->addWarning('Empty set of arbitrary parentheses found.', $stackPtr, 'FoundEmpty');
+                return $tokens[$stackPtr]['parenthesis_closer'] + 1;
+            }
+        }
+        // Check the spacing on the inside of the parentheses.
+        $this->spacing = (int) $this->spacing;
+        if ($tokens[$stackPtr]['code'] === \T_OPEN_PARENTHESIS && isset($tokens[$stackPtr + 1], $tokens[$stackPtr + 2]) === \true) {
+            $nextToken = $tokens[$stackPtr + 1];
+            if ($nextToken['code'] !== \T_WHITESPACE) {
+                $inside = 0;
+            } else if ($tokens[$stackPtr + 2]['line'] !== $tokens[$stackPtr]['line']) {
+                $inside = 'newline';
+            } else {
+                $inside = $nextToken['length'];
+            }
+            if ($this->spacing !== $inside && ($inside !== 'newline' || $this->ignoreNewlines === \false)) {
+                $error = 'Expected %s space after open parenthesis; %s found';
+                $data = [$this->spacing, $inside];
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterOpen', $data);
+                if ($fix === \true) {
+                    $expected = '';
+                    if ($this->spacing > 0) {
+                        $expected = str_repeat(' ', $this->spacing);
+                    }
+                    if ($inside === 0) {
+                        if ($expected !== '') {
+                            $phpcsFile->fixer->addContent($stackPtr, $expected);
+                        }
+                    } elseif ($inside === 'newline') {
+                        $phpcsFile->fixer->beginChangeset();
+                        for ($i = $stackPtr + 2; $i < $phpcsFile->numTokens; $i++) {
+                            if ($tokens[$i]['code'] !== \T_WHITESPACE) {
+                                break;
+                            }
+                            $phpcsFile->fixer->replaceToken($i, '');
+                        }
+                        $phpcsFile->fixer->replaceToken($stackPtr + 1, $expected);
+                        $phpcsFile->fixer->endChangeset();
+                    } else {
+                        $phpcsFile->fixer->replaceToken($stackPtr + 1, $expected);
+                    }
+                }
+            }
+        }
+        if ($tokens[$stackPtr]['code'] === \T_CLOSE_PARENTHESIS && isset($tokens[$stackPtr - 1], $tokens[$stackPtr - 2]) === \true) {
+            $prevToken = $tokens[$stackPtr - 1];
+            if ($prevToken['code'] !== \T_WHITESPACE) {
+                $inside = 0;
+            } else if ($tokens[$stackPtr - 2]['line'] !== $tokens[$stackPtr]['line']) {
+                $inside = 'newline';
+            } else {
+                $inside = $prevToken['length'];
+            }
+            if ($this->spacing !== $inside && ($inside !== 'newline' || $this->ignoreNewlines === \false)) {
+                $error = 'Expected %s space before close parenthesis; %s found';
+                $data = [$this->spacing, $inside];
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceBeforeClose', $data);
+                if ($fix === \true) {
+                    $expected = '';
+                    if ($this->spacing > 0) {
+                        $expected = str_repeat(' ', $this->spacing);
+                    }
+                    if ($inside === 0) {
+                        if ($expected !== '') {
+                            $phpcsFile->fixer->addContentBefore($stackPtr, $expected);
+                        }
+                    } elseif ($inside === 'newline') {
+                        $phpcsFile->fixer->beginChangeset();
+                        for ($i = $stackPtr - 2; $i > 0; $i--) {
+                            if ($tokens[$i]['code'] !== \T_WHITESPACE) {
+                                break;
+                            }
+                            $phpcsFile->fixer->replaceToken($i, '');
+                        }
+                        $phpcsFile->fixer->replaceToken($stackPtr - 1, $expected);
+                        $phpcsFile->fixer->endChangeset();
+                    } else {
+                        $phpcsFile->fixer->replaceToken($stackPtr - 1, $expected);
+                    }
+                }
+            }
+        }
+    }
+}

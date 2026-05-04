@@ -1,24 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\SniffRunner\DataCollector;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
-
 final class SniffMetadataCollector
 {
     /**
      * @var array<class-string|string>
      */
-    private array $appliedSniffs = [];
-
+    private $appliedSniffs = [];
     /**
      * @var CodingStandardError[]
      */
-    private array $codingStandardErrors = [];
-
+    private $codingStandardErrors = [];
     /**
      * @param class-string<Sniff>|string $checkerClass
      */
@@ -26,7 +22,6 @@ final class SniffMetadataCollector
     {
         $this->appliedSniffs[] = $checkerClass;
     }
-
     /**
      * @return array<class-string<Sniff>|string>
      */
@@ -34,23 +29,19 @@ final class SniffMetadataCollector
     {
         return $this->appliedSniffs;
     }
-
     public function reset(): void
     {
         $this->appliedSniffs = [];
         $this->codingStandardErrors = [];
     }
-
     public function resetErrors(): void
     {
         $this->codingStandardErrors = [];
     }
-
     public function addCodingStandardError(CodingStandardError $codingStandardError): void
     {
         $this->codingStandardErrors[] = $codingStandardError;
     }
-
     /**
      * @return CodingStandardError[]
      */

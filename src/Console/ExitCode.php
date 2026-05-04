@@ -1,16 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
-use Symfony\Component\Console\Command\Command;
-
+use ECSPrefix202605\Symfony\Component\Console\Command\Command;
 final class ExitCode
 {
-    public const int SUCCESS = Command::SUCCESS;
-
-    public const int FAILURE = Command::FAILURE;
-
-    public const int CHANGED_CODE_OR_FOUND_ERRORS = 2;
+    /**
+     * @var int
+     */
+    public const SUCCESS = Command::SUCCESS;
+    /**
+     * @var int
+     */
+    public const FAILURE = Command::FAILURE;
+    /**
+     * @var int
+     */
+    public const CHANGED_CODE_OR_FOUND_ERRORS = 2;
 }

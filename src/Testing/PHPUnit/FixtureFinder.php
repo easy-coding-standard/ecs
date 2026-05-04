@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 
 use Iterator;
-use Symfony\Component\Finder\Finder;
-
+use ECSPrefix202605\Symfony\Component\Finder\Finder;
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Testing\PHPUnit\FixtureFinderTest
  */
@@ -20,7 +18,6 @@ final class FixtureFinder
     {
         $finder = Finder::create()->in($directory)->files()->name($suffix);
         $fileInfos = iterator_to_array($finder);
-
         $filePaths = array_keys($fileInfos);
         foreach ($filePaths as $filePath) {
             yield [$filePath];

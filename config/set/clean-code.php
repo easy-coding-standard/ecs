@@ -1,6 +1,7 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ECSPrefix202605;
 
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
@@ -11,19 +12,4 @@ use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer;
 use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-
-return ECSConfig::configure()
-    ->withConfiguredRule(ArraySyntaxFixer::class, [
-        'syntax' => 'short',
-    ])
-    ->withRules([
-        ParamReturnAndVarTagMalformsFixer::class,
-        NoUnusedImportsFixer::class,
-        NoEmptyStatementFixer::class,
-        ProtectedToPrivateFixer::class,
-        NoUnneededControlParenthesesFixer::class,
-        NoUnneededCurlyBracesFixer::class,
-    ])
-    ->withConfiguredRule(OrderedImportsFixer::class, [
-        'imports_order' => ['class', 'function', 'const'],
-    ]);
+return ECSConfig::configure()->withConfiguredRule(ArraySyntaxFixer::class, ['syntax' => 'short'])->withRules([ParamReturnAndVarTagMalformsFixer::class, NoUnusedImportsFixer::class, NoEmptyStatementFixer::class, ProtectedToPrivateFixer::class, NoUnneededControlParenthesesFixer::class, NoUnneededCurlyBracesFixer::class])->withConfiguredRule(OrderedImportsFixer::class, ['imports_order' => ['class', 'function', 'const']]);

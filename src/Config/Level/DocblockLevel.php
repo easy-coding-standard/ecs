@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Config\Level;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -18,7 +17,6 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
-
 /**
  * Key 0 = level 0
  *
@@ -31,33 +29,25 @@ final class DocblockLevel
     /**
      * @var array<class-string<Sniff|FixerInterface>>
      */
-    public const array RULES = [
+    public const RULES = [
         // pure whitespace cleanup
         NoTrailingWhitespaceInCommentFixer::class,
         PhpdocTrimFixer::class,
         PhpdocTrimConsecutiveBlankLineSeparationFixer::class,
         PhpdocIndentFixer::class,
-
         // type / formatting normalization
         PhpdocTypesFixer::class,
         PhpdocLineSpanFixer::class,
         PhpdocVarWithoutNameFixer::class,
         PhpdocReturnSelfReferenceFixer::class,
-
         // dropping content
         NoEmptyPhpdocFixer::class,
         PhpdocNoEmptyReturnFixer::class,
         RemoveUselessDefaultCommentFixer::class,
         NoSuperfluousPhpdocTagsFixer::class,
     ];
-
     /**
      * @var array<class-string<Sniff|FixerInterface>, mixed[]>
      */
-    public const array RULE_CONFIGURATIONS = [
-        NoSuperfluousPhpdocTagsFixer::class => [
-            'remove_inheritdoc' => true,
-            'allow_mixed' => true,
-        ],
-    ];
+    public const RULE_CONFIGURATIONS = [NoSuperfluousPhpdocTagsFixer::class => ['remove_inheritdoc' => \true, 'allow_mixed' => \true]];
 }

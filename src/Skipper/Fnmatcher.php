@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Skipper;
 
 final class Fnmatcher
@@ -10,15 +9,12 @@ final class Fnmatcher
     {
         $normalizedMatchingPath = $this->normalizePath($matchingPath);
         $normalizedFilePath = $this->normalizePath($filePath);
-
         if (fnmatch($normalizedMatchingPath, $normalizedFilePath)) {
-            return true;
+            return \true;
         }
-
         // in case of relative compare
         return fnmatch('*/' . $normalizedMatchingPath, $normalizedFilePath);
     }
-
     private function normalizePath(string $path): string
     {
         return str_replace('\\', '/', $path);

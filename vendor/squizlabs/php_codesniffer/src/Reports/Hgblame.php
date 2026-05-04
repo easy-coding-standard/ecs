@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Mercurial blame report for PHP_CodeSniffer.
+ *
+ * @author    Ben Selby <benmatselby@gmail.com>
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @copyright 2006-2023 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2023 PHPCSStandards and contributors
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
+ */
+namespace PHP_CodeSniffer\Reports;
+
+use PHP_CodeSniffer\Exceptions\DeepExitException;
+use PHP_CodeSniffer\Util\ExitCode;
+class Hgblame extends \PHP_CodeSniffer\Reports\VersionControl
+{
+    /**
+     * The name of the report we want in the output
+     *
+     * @var string
+     */
+    protected $reportName = 'MERCURIAL';
+    /**
+     * Extract the author from a blame line.
+     *
+     * @param string $line Line to parse.
+     *
+     * @return string|false String or FALSE if impossible to recover.
+     */
+    protected function getAuthor(string $line)
+    {
+        $blameParts = [];
+        $line = preg_replace('|\s+|', ' ', $line);
+        preg_match('|(.+[0-9]{2}:[0-9]{2}:[0-9]{2}\s[0-9]{4}\s.[0-9]{4}:)|', $line, $blameParts);
+        if (isset($blameParts[0]) === \false) {
+            return \false;
+        }
+        $parts = explode(' ', $blameParts[0]);
+        if (count($parts) < 6) {
+            return \false;
+        }
+        $parts = array_slice($parts, 0, count($parts) - 6);
+        return trim(preg_replace('|<.+>|', '', implode(' ', $parts)));
+    }
+    /**
+     * Gets the blame output.
+     *
+     * @param string $filename File to blame.
+     *
+     * @return array
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException
+     */
+    protected function getBlameContent(string $filename)
+    {
+        $cwd = getcwd();
+        $fileParts = explode(\DIRECTORY_SEPARATOR, $filename);
+        $found = \false;
+        $location = '';
+        while (empty($fileParts) === \false) {
+            array_pop($fileParts);
+            $location = implode(\DIRECTORY_SEPARATOR, $fileParts);
+            if (is_dir($location . \DIRECTORY_SEPARATOR . '.hg') === \true) {
+                $found = \true;
+                break;
+            }
+        }
+        if ($found === \true) {
+            chdir($location);
+        } else {
+            $error = 'ERROR: Could not locate .hg directory ' . \PHP_EOL . \PHP_EOL;
+            throw new DeepExitException($error, ExitCode::PROCESS_ERROR);
+        }
+        $command = 'hg blame -u -d -v "' . $filename . '" 2>&1';
+        $handle = popen($command, 'r');
+        if ($handle === \false) {
+            $error = 'ERROR: Could not execute "' . $command . '"' . \PHP_EOL . \PHP_EOL;
+            throw new DeepExitException($error, ExitCode::PROCESS_ERROR);
+        }
+        $rawContent = stream_get_contents($handle);
+        pclose($handle);
+        $blames = explode("\n", $rawContent);
+        chdir($cwd);
+        return $blames;
+    }
+}

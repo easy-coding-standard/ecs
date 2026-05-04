@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Config\Level;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -29,7 +28,6 @@ use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
 use PhpCsFixer\Fixer\Whitespace\TypeDeclarationSpacesFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
-
 /**
  * Key 0 = level 0
  * Key 22 = level 22
@@ -46,7 +44,7 @@ final class SpacesLevel
     /**
      * @var array<class-string<Sniff|FixerInterface>>
      */
-    public const array RULES = [
+    public const RULES = [
         // easy picks - pure whitespace cleanup with no formatting opinion
         NoLeadingNamespaceWhitespaceFixer::class,
         NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
@@ -58,7 +56,6 @@ final class SpacesLevel
         SingleTraitInsertPerStatementFixer::class,
         PhpdocSingleLineVarSpacingFixer::class,
         LanguageConstructSpacingSniff::class,
-
         // operator and type spacing
         CastSpacesFixer::class,
         NotOperatorWithSuccessorSpaceFixer::class,
@@ -66,11 +63,9 @@ final class SpacesLevel
         ReturnTypeDeclarationFixer::class,
         TypeDeclarationSpacesFixer::class,
         SuperfluousWhitespaceSniff::class,
-
         // configurable, more impactful
         ConcatSpaceFixer::class,
         BinaryOperatorSpacesFixer::class,
-
         // most invasive structural changes
         MethodChainingIndentationFixer::class,
         StandaloneLinePromotedPropertyFixer::class,
@@ -78,35 +73,11 @@ final class SpacesLevel
         ClassAttributesSeparationFixer::class,
         NoExtraBlankLinesFixer::class,
     ];
-
     /**
      * Configurations matching the spaces set, applied when a configurable rule
      * is enabled via withSpacesLevel(). Rules absent from this map use defaults.
      *
      * @var array<class-string<Sniff|FixerInterface>, mixed[]>
      */
-    public const array RULE_CONFIGURATIONS = [
-        ClassAttributesSeparationFixer::class => [
-            'elements' => [
-                'const' => 'one',
-                'property' => 'one',
-                'method' => 'one',
-            ],
-        ],
-        NoExtraBlankLinesFixer::class => [
-            'tokens' => ['extra', 'throw', 'use'],
-        ],
-        ConcatSpaceFixer::class => [
-            'spacing' => 'one',
-        ],
-        SuperfluousWhitespaceSniff::class => [
-            'ignoreBlankLines' => false,
-        ],
-        BinaryOperatorSpacesFixer::class => [
-            'operators' => [
-                '=>' => 'single_space',
-                '=' => 'single_space',
-            ],
-        ],
-    ];
+    public const RULE_CONFIGURATIONS = [ClassAttributesSeparationFixer::class => ['elements' => ['const' => 'one', 'property' => 'one', 'method' => 'one']], NoExtraBlankLinesFixer::class => ['tokens' => ['extra', 'throw', 'use']], ConcatSpaceFixer::class => ['spacing' => 'one'], SuperfluousWhitespaceSniff::class => ['ignoreBlankLines' => \false], BinaryOperatorSpacesFixer::class => ['operators' => ['=>' => 'single_space', '=' => 'single_space']]];
 }

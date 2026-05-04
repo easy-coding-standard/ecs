@@ -1,19 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\DependencyInjection;
 
-use Webmozart\Assert\Assert;
-
+use ECSPrefix202605\Webmozart\Assert\Assert;
 final class SimpleParameterProvider
 {
     /**
      * @var array<string, mixed>
      */
-    private static array $parameters = [];
-
-    public static function addParameter(string $key, mixed $value): void
+    private static $parameters = [];
+    /**
+     * @param mixed $value
+     */
+    public static function addParameter(string $key, $value): void
     {
         if (is_array($value)) {
             $mergedParameters = array_merge(self::$parameters[$key] ?? [], $value);
@@ -22,12 +22,13 @@ final class SimpleParameterProvider
             self::$parameters[$key][] = $value;
         }
     }
-
-    public static function setParameter(string $key, mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    public static function setParameter(string $key, $value): void
     {
         self::$parameters[$key] = $value;
     }
-
     /**
      * @return mixed[]
      */
@@ -35,30 +36,40 @@ final class SimpleParameterProvider
     {
         $parameter = self::$parameters[$key] ?? [];
         Assert::isArray($parameter);
-
-        if (array_is_list($parameter)) {
+        $arrayIsListFunction = function (array $array): bool {
+            if (function_exists('array_is_list')) {
+                return array_is_list($array);
+            }
+            if ($array === []) {
+                return \true;
+            }
+            $current_key = 0;
+            foreach ($array as $key => $noop) {
+                if ($key !== $current_key) {
+                    return \false;
+                }
+                ++$current_key;
+            }
+            return \true;
+        };
+        if ($arrayIsListFunction($parameter)) {
             // remove duplicates
             return array_values(array_unique($parameter));
         }
-
         return $parameter;
     }
-
     public static function getStringParameter(string $key): string
     {
         return self::$parameters[$key];
     }
-
     public static function getIntParameter(string $key): int
     {
         return self::$parameters[$key];
     }
-
     public static function getBoolParameter(string $key): bool
     {
         return self::$parameters[$key];
     }
-
     /**
      * For cache invalidation
      */

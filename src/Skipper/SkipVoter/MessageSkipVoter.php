@@ -1,48 +1,57 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Skipper\SkipVoter;
 
 use SplFileInfo;
 use Symplify\EasyCodingStandard\Skipper\Contract\SkipVoterInterface;
 use Symplify\EasyCodingStandard\Skipper\Matcher\FileInfoMatcher;
 use Symplify\EasyCodingStandard\Skipper\SkipCriteriaResolver\SkippedMessagesResolver;
-
-final readonly class MessageSkipVoter implements SkipVoterInterface
+final class MessageSkipVoter implements SkipVoterInterface
 {
-    public function __construct(
-        private SkippedMessagesResolver $skippedMessagesResolver,
-        private FileInfoMatcher $fileInfoMatcher
-    ) {
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Skipper\SkipCriteriaResolver\SkippedMessagesResolver
+     */
+    private $skippedMessagesResolver;
+    /**
+     * @readonly
+     * @var \Symplify\EasyCodingStandard\Skipper\Matcher\FileInfoMatcher
+     */
+    private $fileInfoMatcher;
+    public function __construct(SkippedMessagesResolver $skippedMessagesResolver, FileInfoMatcher $fileInfoMatcher)
+    {
+        $this->skippedMessagesResolver = $skippedMessagesResolver;
+        $this->fileInfoMatcher = $fileInfoMatcher;
     }
-
-    public function match(string | object $element): bool
+    /**
+     * @param string|object $element
+     */
+    public function match($element): bool
     {
         if (is_object($element)) {
-            return false;
+            return \false;
         }
-
         return substr_count($element, ' ') > 0;
     }
-
-    public function shouldSkip(string | object $element, SplFileInfo | string $file): bool
+    /**
+     * @param string|object $element
+     * @param \SplFileInfo|string $file
+     */
+    public function shouldSkip($element, $file): bool
     {
         if (is_object($element)) {
-            return false;
+            return \false;
         }
-
         $skippedMessages = $this->skippedMessagesResolver->resolve();
-        if (! array_key_exists($element, $skippedMessages)) {
-            return false;
+        if (!array_key_exists($element, $skippedMessages)) {
+            return \false;
         }
-
         // skip regardless the path
         $skippedPaths = $skippedMessages[$element];
         if ($skippedPaths === null) {
-            return true;
+            return \true;
         }
-
         return $this->fileInfoMatcher->doesFileInfoMatchPatterns($file, $skippedPaths);
     }
 }

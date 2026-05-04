@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Symplify\EasyCodingStandard\Finder;
 
-use Symfony\Component\Finder\Finder;
+use ECSPrefix202605\Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\DependencyInjection\SimpleParameterProvider;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Finder\SourceFinderTest
  */
@@ -16,13 +14,11 @@ final class SourceFinder
     /**
      * @var string[]
      */
-    private array $fileExtensions = [];
-
+    private $fileExtensions = [];
     public function __construct()
     {
         $this->fileExtensions = SimpleParameterProvider::getArrayParameter(Option::FILE_EXTENSIONS);
     }
-
     /**
      * @param string[] $source
      * @return string[]
@@ -35,35 +31,21 @@ final class SourceFinder
                 $filePaths[] = $singleSource;
             } else {
                 $filesInDirectory = $this->processDirectory($singleSource);
-                $filePaths = [...$filePaths, ...$filesInDirectory];
+                $filePaths = array_merge($filePaths, $filesInDirectory);
             }
         }
-
         ksort($filePaths);
-
         return $filePaths;
     }
-
     /**
      * @return string[]
      */
     private function processDirectory(string $directory): array
     {
         $normalizedFileExtensions = $this->normalizeFileExtensions($this->fileExtensions);
-
-        $finder = Finder::create()
-            ->files()
-            ->ignoreDotFiles(false)
-            ->name($normalizedFileExtensions)
-            ->in($directory)
-            ->exclude('vendor')
-            // skip empty files
-            ->size('> 0')
-            ->sortByName();
-
+        $finder = Finder::create()->files()->ignoreDotFiles(\false)->name($normalizedFileExtensions)->in($directory)->exclude('vendor')->size('> 0')->sortByName();
         return array_keys(iterator_to_array($finder));
     }
-
     /**
      * @param string[] $fileExtensions
      * @return string[]
@@ -71,12 +53,10 @@ final class SourceFinder
     private function normalizeFileExtensions(array $fileExtensions): array
     {
         $normalizedFileExtensions = [];
-
         foreach ($fileExtensions as $fileExtension) {
             $normalizedFileExtensions[] = '*.' . $fileExtension;
             $normalizedFileExtensions[] = '.*.' . $fileExtension;
         }
-
         return $normalizedFileExtensions;
     }
 }
