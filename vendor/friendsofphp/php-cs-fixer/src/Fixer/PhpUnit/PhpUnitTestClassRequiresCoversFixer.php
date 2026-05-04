@@ -66,6 +66,6 @@ PHP
             return;
             // don't add `@covers` annotation for abstract base classes
         }
-        $this->ensureIsDocBlockWithAnnotation($tokens, $classIndex, 'coversNothing', ['covers', 'coversDefaultClass', 'coversNothing'], ['ECSPrefix202605\phpunit\framework\attributes\coversclass', 'ECSPrefix202605\phpunit\framework\attributes\coversnothing', 'ECSPrefix202605\phpunit\framework\attributes\coversmethod', 'ECSPrefix202605\phpunit\framework\attributes\coversfunction', 'ECSPrefix202605\phpunit\framework\attributes\coverstrait']);
+        $this->ensureIsDocBlockWithAnnotation($tokens, $classIndex, 'coversNothing', ['covers', 'coversDefaultClass', 'coversNothing'], ['phpunit\framework\attributes\coversclass', 'phpunit\framework\attributes\coversnothing', 'phpunit\framework\attributes\coversmethod', 'phpunit\framework\attributes\coversfunction', 'phpunit\framework\attributes\coverstrait']);
     }
 }

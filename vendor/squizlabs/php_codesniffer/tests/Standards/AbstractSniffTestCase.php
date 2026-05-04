@@ -21,7 +21,7 @@ use PHP_CodeSniffer\Files\LocalFile;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Tests\ConfigDouble;
 use PHP_CodeSniffer\Util\Common;
-use ECSPrefix202605\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 abstract class AbstractSniffTestCase extends TestCase
 {

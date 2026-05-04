@@ -63,7 +63,7 @@ final class PhpUnitMethodCasingFixer extends AbstractPhpUnitFixer implements Con
 
 namespace ECSPrefix202605;
 
-class MyTest extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+class MyTest extends \PhpUnit\FrameWork\TestCase
 {
     public function test_my_code()
     {
@@ -77,7 +77,7 @@ PHP
 
 namespace ECSPrefix202605;
 
-class MyTest extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+class MyTest extends \PhpUnit\FrameWork\TestCase
 {
     public function testMyCode()
     {
@@ -91,10 +91,10 @@ PHP
 
 namespace ECSPrefix202605;
 
-use ECSPrefix202605\PHPUnit\Framework\Attributes\Test;
-class MyTest extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+use PHPUnit\Framework\Attributes\Test;
+class MyTest extends \PhpUnit\FrameWork\TestCase
 {
-    #[PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function test_my_code()
     {
     }
@@ -107,10 +107,10 @@ PHP
 
 namespace ECSPrefix202605;
 
-use ECSPrefix202605\PHPUnit\Framework\Attributes\Test;
-class MyTest extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+use PHPUnit\Framework\Attributes\Test;
+class MyTest extends \PhpUnit\FrameWork\TestCase
 {
-    #[PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function testMyCode()
     {
     }

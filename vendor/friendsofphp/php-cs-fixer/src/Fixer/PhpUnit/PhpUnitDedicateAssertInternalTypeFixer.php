@@ -53,7 +53,7 @@ final class PhpUnitDedicateAssertInternalTypeFixer extends AbstractPhpUnitFixer 
 
 namespace ECSPrefix202605;
 
-final class MyTest extends \ECSPrefix202605\PHPUnit\Framework\TestCase
+final class MyTest extends \PHPUnit\Framework\TestCase
 {
     public function testMe()
     {
@@ -69,7 +69,7 @@ PHP
 
 namespace ECSPrefix202605;
 
-final class MyTest extends \ECSPrefix202605\PHPUnit\Framework\TestCase
+final class MyTest extends \PHPUnit\Framework\TestCase
 {
     public function testMe()
     {

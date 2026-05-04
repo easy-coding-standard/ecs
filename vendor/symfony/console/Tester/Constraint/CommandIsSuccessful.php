@@ -10,7 +10,7 @@
  */
 namespace ECSPrefix202605\Symfony\Component\Console\Tester\Constraint;
 
-use ECSPrefix202605\PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\Constraint;
 use ECSPrefix202605\Symfony\Component\Console\Command\Command;
 final class CommandIsSuccessful extends Constraint
 {

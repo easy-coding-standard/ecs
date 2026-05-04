@@ -10,7 +10,7 @@
  */
 namespace ECSPrefix202605\Symfony\Component\Console\Tester;
 
-use ECSPrefix202605\PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Assert;
 use ECSPrefix202605\Symfony\Component\Console\Input\InputInterface;
 use ECSPrefix202605\Symfony\Component\Console\Output\ConsoleOutput;
 use ECSPrefix202605\Symfony\Component\Console\Output\OutputInterface;

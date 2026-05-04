@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace ECSPrefix202605\Entropy\Attributes;
 
 use Attribute;
-use ECSPrefix202605\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 #[Attribute(Attribute::TARGET_CLASS)]
 final class RelatedTest
 {

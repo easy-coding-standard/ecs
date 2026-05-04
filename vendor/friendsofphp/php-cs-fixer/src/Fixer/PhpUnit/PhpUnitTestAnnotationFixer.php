@@ -58,7 +58,7 @@ final class PhpUnitTestAnnotationFixer extends AbstractPhpUnitFixer implements C
 
 namespace ECSPrefix202605;
 
-class Test extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+class Test extends \PhpUnit\FrameWork\TestCase
 {
     /**
     * @test
@@ -74,7 +74,7 @@ PHP
 
 namespace ECSPrefix202605;
 
-class Test extends \ECSPrefix202605\PhpUnit\FrameWork\TestCase
+class Test extends \PhpUnit\FrameWork\TestCase
 {
     public function testItDoesSomething()
     {

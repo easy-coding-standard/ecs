@@ -10,7 +10,7 @@
  */
 namespace ECSPrefix202605\Symfony\Contracts\Service\Test;
 
-use ECSPrefix202605\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use ECSPrefix202605\Psr\Container\ContainerExceptionInterface;
 use ECSPrefix202605\Psr\Container\ContainerInterface;
 use ECSPrefix202605\Psr\Container\NotFoundExceptionInterface;
