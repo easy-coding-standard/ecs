@@ -681,6 +681,7 @@ return array(
     'PhpCsFixer\\ConfigurationException\\InvalidForEnvFixerConfigurationException' => $vendorDir . '/friendsofphp/php-cs-fixer/src/ConfigurationException/InvalidForEnvFixerConfigurationException.php',
     'PhpCsFixer\\ConfigurationException\\RequiredFixerConfigurationException' => $vendorDir . '/friendsofphp/php-cs-fixer/src/ConfigurationException/RequiredFixerConfigurationException.php',
     'PhpCsFixer\\ConfigurationException\\UnresolvableAutoRuleSetConfigurationException' => $vendorDir . '/friendsofphp/php-cs-fixer/src/ConfigurationException/UnresolvableAutoRuleSetConfigurationException.php',
+    'PhpCsFixer\\Console\\Application' => $vendorDir . '/friendsofphp/php-cs-fixer/src/Console/Application.php',
     'PhpCsFixer\\Console\\Command\\CheckCommand' => $vendorDir . '/friendsofphp/php-cs-fixer/src/Console/Command/CheckCommand.php',
     'PhpCsFixer\\Console\\Command\\DescribeNameNotFoundException' => $vendorDir . '/friendsofphp/php-cs-fixer/src/Console/Command/DescribeNameNotFoundException.php',
     'PhpCsFixer\\Console\\Command\\FixCommandExitStatusCalculator' => $vendorDir . '/friendsofphp/php-cs-fixer/src/Console/Command/FixCommandExitStatusCalculator.php',

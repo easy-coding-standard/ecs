@@ -911,6 +911,7 @@ class ComposerStaticInit072d765d789d7f9b063be295bb31f369
         'PhpCsFixer\\ConfigurationException\\InvalidForEnvFixerConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/InvalidForEnvFixerConfigurationException.php',
         'PhpCsFixer\\ConfigurationException\\RequiredFixerConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/RequiredFixerConfigurationException.php',
         'PhpCsFixer\\ConfigurationException\\UnresolvableAutoRuleSetConfigurationException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/ConfigurationException/UnresolvableAutoRuleSetConfigurationException.php',
+        'PhpCsFixer\\Console\\Application' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Application.php',
         'PhpCsFixer\\Console\\Command\\CheckCommand' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/CheckCommand.php',
         'PhpCsFixer\\Console\\Command\\DescribeNameNotFoundException' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/DescribeNameNotFoundException.php',
         'PhpCsFixer\\Console\\Command\\FixCommandExitStatusCalculator' => __DIR__ . '/..' . '/friendsofphp/php-cs-fixer/src/Console/Command/FixCommandExitStatusCalculator.php',
