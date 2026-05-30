@@ -1,9 +1,9 @@
 # agent-detector
 
-[![Integrate](https://github.com/ergebnis/agent-detector/workflows/Integrate/badge.svg?branch=main)](https://github.com/ergebnis/agent-detector/actions)
-[![Merge](https://github.com/ergebnis/agent-detector/workflows/Merge/badge.svg)](https://github.com/ergebnis/agent-detector/actions)
-[![Release](https://github.com/ergebnis/agent-detector/workflows/Release/badge.svg)](https://github.com/ergebnis/agent-detector/actions)
-[![Renew](https://github.com/ergebnis/agent-detector/workflows/Renew/badge.svg)](https://github.com/ergebnis/agent-detector/actions)
+[![Integrate](https://github.com/ergebnis/agent-detector/actions/workflows/integrate.yaml/badge.svg?branch=main)](https://github.com/ergebnis/agent-detector/actions/workflows/integrate.yaml)
+[![Merge](https://github.com/ergebnis/agent-detector/actions/workflows/merge.yaml/badge.svg)](https://github.com/ergebnis/agent-detector/actions/workflows/merge.yaml)
+[![Release](https://github.com/ergebnis/agent-detector/actions/workflows/release.yaml/badge.svg)](https://github.com/ergebnis/agent-detector/actions/workflows/release.yaml)
+[![Renew](https://github.com/ergebnis/agent-detector/actions/workflows/renew.yaml/badge.svg)](https://github.com/ergebnis/agent-detector/actions/workflows/renew.yaml)
 
 [![Code Coverage](https://codecov.io/gh/ergebnis/agent-detector/branch/main/graph/badge.svg)](https://codecov.io/gh/ergebnis/agent-detector)
 
@@ -50,8 +50,9 @@ This package detects the presence of the following agents via environment variab
 | [Codex](https://github.com/openai/codex) | `CODEX_CI`, `CODEX_SANDBOX`, `CODEX_THREAD_ID` |
 | [Cursor](https://cursor.com) | `CURSOR_AGENT`, `CURSOR_EXTENSION_HOST_ROLE`, `CURSOR_TRACE_ID` |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI_CLI` |
-| [GitHub Copilot](https://github.com/features/copilot) | `COPILOT_ALLOW_ALL`, `COPILOT_GITHUB_TOKEN`, `COPILOT_MODEL` |
+| [GitHub Copilot](https://github.com/features/copilot) | `COPILOT_ALLOW_ALL`, `COPILOT_CLI`, `COPILOT_GITHUB_TOKEN`, `COPILOT_MODEL |
 | [OpenCode](https://github.com/sst/opencode) | `OPENCODE`, `OPENCODE_CLIENT` |
+| [Pi](https://pi.dev) | `PI_CODING_AGENT` |
 | [Replit](https://replit.com) | `REPL_ID` |
 
 ### Indicating the presence of an agent

@@ -44,8 +44,11 @@ abstract class AbstractFopenFlagFixer extends \PhpCsFixer\AbstractFunctionRefere
             if ($argumentsCount < 2 || $argumentsCount > 4) {
                 continue;
             }
-            $argumentStartIndex = array_keys($arguments)[1];
             // get second argument index
+            $argumentKeys = array_keys($arguments);
+            \assert(isset($argumentKeys[1]));
+            $argumentStartIndex = $argumentKeys[1];
+            \assert(isset($arguments[$argumentStartIndex]));
             $this->fixFopenFlagToken($tokens, $argumentStartIndex, $arguments[$argumentStartIndex]);
         }
     }

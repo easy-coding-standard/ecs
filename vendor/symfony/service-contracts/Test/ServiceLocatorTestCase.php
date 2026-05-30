@@ -29,11 +29,11 @@ abstract class ServiceLocatorTestCase extends TestCase
     }
     public function testHas()
     {
-        $locator = $this->getServiceLocator(['foo' => function () {
+        $locator = $this->getServiceLocator(['foo' => static function () {
             return 'bar';
-        }, 'bar' => function () {
+        }, 'bar' => static function () {
             return 'baz';
-        }, function () {
+        }, static function () {
             return 'dummy';
         }]);
         $this->assertTrue($locator->has('foo'));
@@ -42,9 +42,9 @@ abstract class ServiceLocatorTestCase extends TestCase
     }
     public function testGet()
     {
-        $locator = $this->getServiceLocator(['foo' => function () {
+        $locator = $this->getServiceLocator(['foo' => static function () {
             return 'bar';
-        }, 'bar' => function () {
+        }, 'bar' => static function () {
             return 'baz';
         }]);
         $this->assertSame('bar', $locator->get('foo'));
@@ -53,7 +53,7 @@ abstract class ServiceLocatorTestCase extends TestCase
     public function testGetDoesNotMemoize()
     {
         $i = 0;
-        $locator = $this->getServiceLocator(['foo' => function () use (&$i) {
+        $locator = $this->getServiceLocator(['foo' => static function () use (&$i) {
             ++$i;
             return 'bar';
         }]);
@@ -63,7 +63,7 @@ abstract class ServiceLocatorTestCase extends TestCase
     }
     public function testThrowsOnUndefinedInternalService()
     {
-        $locator = $this->getServiceLocator(['foo' => function () use (&$locator) {
+        $locator = $this->getServiceLocator(['foo' => static function () use (&$locator) {
             return $locator->get('bar');
         }]);
         $this->expectException(NotFoundExceptionInterface::class);
@@ -72,11 +72,11 @@ abstract class ServiceLocatorTestCase extends TestCase
     }
     public function testThrowsOnCircularReference()
     {
-        $locator = $this->getServiceLocator(['foo' => function () use (&$locator) {
+        $locator = $this->getServiceLocator(['foo' => static function () use (&$locator) {
             return $locator->get('bar');
-        }, 'bar' => function () use (&$locator) {
+        }, 'bar' => static function () use (&$locator) {
             return $locator->get('baz');
-        }, 'baz' => function () use (&$locator) {
+        }, 'baz' => static function () use (&$locator) {
             return $locator->get('bar');
         }]);
         $this->expectException(ContainerExceptionInterface::class);

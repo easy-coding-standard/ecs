@@ -7,6 +7,7 @@ use ECSPrefix202605\Entropy\Attributes\RelatedTest;
 use ECSPrefix202605\Entropy\Console\Contract\CommandInterface;
 use ECSPrefix202605\Entropy\Console\Exception\ConsoleInputMappingException;
 use ECSPrefix202605\Entropy\Console\ValueObject\CLIRequest;
+use ECSPrefix202605\Entropy\Reflection\ParameterOptionMarkerResolver;
 use ECSPrefix202605\Entropy\Tests\Console\Mapper\CLIRequestMapperTest;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -29,6 +30,7 @@ final class CLIRequestMapper
         if (\PHP_VERSION_ID < 80100) {
             $reflectionMethod->setAccessible(\true);
         }
+        $optionMarkers = ParameterOptionMarkerResolver::resolve($reflectionMethod);
         $args = [];
         $positionals = $cliRequest->getArguments();
         $options = $cliRequest->getOptions();
@@ -51,6 +53,19 @@ final class CLIRequestMapper
                 $consumedOptionNames[$optionName] = \true;
                 $args[] = $this->castValueByParameterType($value, $type);
                 continue;
+            }
+            // 1b) Param explicitly marked as "@option" must not consume positional arguments
+            $isExplicitOption = isset($optionMarkers[$name]);
+            if ($isExplicitOption) {
+                if ($reflectionParameter->isDefaultValueAvailable()) {
+                    $args[] = $reflectionParameter->getDefaultValue();
+                    continue;
+                }
+                if ($isBool) {
+                    $args[] = \false;
+                    continue;
+                }
+                throw new ConsoleInputMappingException(sprintf('Missing required value for "%s" (use "--%s" to provide it)', $name, $optionName));
             }
             // 2) Variadic param: consume all remaining positionals as separate arguments
             if ($reflectionParameter->isVariadic()) {
@@ -132,6 +147,10 @@ final class CLIRequestMapper
         // fallback to default value if empty
         if ($defaultValue !== 'unknown' && empty($value)) {
             return $defaultValue;
+        }
+        // special case, use single value if param type is scalar
+        if (in_array($reflectionType->getName(), ['string', 'int', 'float'], \true) && is_array($value)) {
+            $value = array_shift($value);
         }
         switch ($reflectionType->getName()) {
             case 'bool':

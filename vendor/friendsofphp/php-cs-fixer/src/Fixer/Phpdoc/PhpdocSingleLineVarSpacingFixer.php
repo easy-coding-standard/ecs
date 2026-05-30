@@ -62,6 +62,7 @@ final class PhpdocSingleLineVarSpacingFixer extends AbstractFixer
         return Preg::replaceCallback('#^/\*\*\h*@var\h+(\S+)\h*(\$\S+)?\h*([^\n]*)\*/$#', static function (array $matches) {
             $content = '/** @var';
             for ($i = 1, $m = \count($matches); $i < $m; ++$i) {
+                \assert(isset($matches[$i]));
                 if ('' !== $matches[$i]) {
                     $content .= ' ' . $matches[$i];
                 }

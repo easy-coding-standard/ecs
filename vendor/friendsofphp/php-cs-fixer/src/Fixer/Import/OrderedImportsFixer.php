@@ -196,10 +196,6 @@ PHP
         $namespacesImports = $tokensAnalyzer->getImportUseIndexes(\true);
         foreach (array_reverse($namespacesImports) as $usesPerNamespaceIndices) {
             $count = \count($usesPerNamespaceIndices);
-            if (0 === $count) {
-                continue;
-                // nothing to sort
-            }
             if (1 === $count) {
                 $this->setNewOrder($tokens, $this->getNewOrder($usesPerNamespaceIndices, $tokens));
                 continue;
@@ -208,17 +204,20 @@ PHP
             $groupUses = [$groupUsesOffset => [$usesPerNamespaceIndices[0]]];
             // if there's some logic between two `use` statements, sort only imports grouped before that logic
             for ($index = 0; $index < $count - 1; ++$index) {
+                \assert(isset($usesPerNamespaceIndices[$index]));
                 $nextGroupUse = $tokens->getNextTokenOfKind($usesPerNamespaceIndices[$index], [';', [\T_CLOSE_TAG]]);
                 if ($tokens[$nextGroupUse]->isGivenKind(\T_CLOSE_TAG)) {
                     $nextGroupUse = $tokens->getNextTokenOfKind($usesPerNamespaceIndices[$index], [[\T_OPEN_TAG]]);
                 }
                 $nextGroupUse = $tokens->getNextMeaningfulToken($nextGroupUse);
+                \assert(isset($usesPerNamespaceIndices[$index + 1]));
                 if ($nextGroupUse !== $usesPerNamespaceIndices[$index + 1]) {
                     $groupUses[++$groupUsesOffset] = [];
                 }
                 $groupUses[$groupUsesOffset][] = $usesPerNamespaceIndices[$index + 1];
             }
             for ($index = $groupUsesOffset; $index >= 0; --$index) {
+                \assert(isset($groupUses[$index]));
                 $this->setNewOrder($tokens, $this->getNewOrder($groupUses[$index], $tokens));
             }
         }
@@ -294,8 +293,10 @@ PHP
         $lineEnding = $this->whitespacesConfig->getLineEnding();
         $usesCount = \count($uses);
         for ($i = 0; $i < $usesCount; ++$i) {
+            \assert(isset($uses[$i]));
             $index = $uses[$i];
             $startIndex = $tokens->getTokenNotOfKindsSibling($index + 1, 1, [\T_WHITESPACE]);
+            \assert(\is_int($startIndex));
             $endIndex = $tokens->getNextTokenOfKind($startIndex, [';', [\T_CLOSE_TAG]]);
             $previous = $tokens->getPrevMeaningfulToken($endIndex);
             $group = $tokens[$previous]->isGivenKind(CT::T_GROUP_IMPORT_BRACE_CLOSE);
@@ -319,6 +320,7 @@ PHP
                         $namespaceTokensCount = \count($namespaceTokens) - 1;
                         $namespace = '';
                         for ($k = 0; $k < $namespaceTokensCount; ++$k) {
+                            \assert(isset($namespaceTokens[$k]));
                             if ($namespaceTokens[$k]->isGivenKind(CT::T_GROUP_IMPORT_BRACE_OPEN)) {
                                 $namespace .= '{';
                                 break;
@@ -335,6 +337,7 @@ PHP
                             $comment = '';
                             $namespacePart = '';
                             for ($k2 = $k1;; ++$k2) {
+                                \assert(isset($namespaceTokens[$k2]));
                                 if ($namespaceTokens[$k2]->equalsAny([',', [CT::T_GROUP_IMPORT_BRACE_CLOSE]])) {
                                     break;
                                 }
@@ -373,6 +376,7 @@ PHP
                     } else {
                         $namespace = Tokens::fromArray($namespaceTokens)->generateCode();
                     }
+                    \assert('' !== $namespace);
                     $indices[$startIndex] = ['namespace' => $namespace, 'startIndex' => $startIndex, 'endIndex' => $index - 1, 'importType' => $type, 'group' => $group];
                     $originalIndices[] = $startIndex;
                     if ($index === $endIndex) {
@@ -380,6 +384,7 @@ PHP
                     }
                     $namespaceTokens = [];
                     $nextPartIndex = $tokens->getTokenNotOfKindSibling($index, 1, [',', [\T_WHITESPACE]]);
+                    \assert(\is_int($nextPartIndex));
                     $startIndex = $nextPartIndex;
                     $index = $nextPartIndex;
                     continue;
@@ -417,7 +422,9 @@ PHP
         $usesOrder = [];
         // Loop through the index but use original index order
         foreach ($indices as $v) {
-            $usesOrder[$originalIndices[++$index]] = $v;
+            ++$index;
+            \assert(isset($originalIndices[$index]));
+            $usesOrder[$originalIndices[$index]] = $v;
         }
         return $usesOrder;
     }
@@ -461,6 +468,7 @@ PHP
             $declarationTokens->clearAt(\count($declarationTokens) - 1);
             // clear `;`
             $declarationTokens->clearEmptyTokens();
+            \assert(isset($mapStartToEnd[$index]));
             $tokens->overrideRange($index, $mapStartToEnd[$index], $declarationTokens);
             if ($use['group']) {
                 // a group import must start with `use` and cannot be part of comma separated import list

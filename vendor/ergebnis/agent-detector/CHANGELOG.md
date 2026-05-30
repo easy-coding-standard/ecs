@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
-For a full diff see [`1.1.1...main`][1.1.1...main].
+For a full diff see [`1.2.0...main`][1.2.0...main].
+
+## [`1.2.0`][1.2.0]
+
+For a full diff see [`1.1.1...1.2.0`][1.1.1...1.2.0].
+
+### Added
+
+- Added support for detecting the presence of an agent when the `COPILOT_CLI` or `PI_CODING_AGENT` environment variables are set ([#10]), by [@raphaelstolt]
 
 ## [`1.1.1`][1.1.1]
 
@@ -35,14 +43,18 @@ For a full diff see [`2655ea1...1.0.1`][2655ea1...1.0.1].
 [1.0.1]: https://github.com/ergebnis/agent-detector/releases/tag/1.0.1
 [1.1.0]: https://github.com/ergebnis/agent-detector/releases/tag/1.1.0
 [1.1.1]: https://github.com/ergebnis/agent-detector/releases/tag/1.1.1
+[1.2.0]: https://github.com/ergebnis/agent-detector/releases/tag/1.2.0
 
+[2655ea1...1.0.1]: https://github.com/ergebnis/agent-detector/compare/2655ea1...1.0.1
 [1.0.1...1.1.0]: https://github.com/ergebnis/agent-detector/compare/1.0.1...1.1.0
 [1.1.0...1.1.1]: https://github.com/ergebnis/agent-detector/compare/1.1.0...1.1.1
-[1.1.1...main]: https://github.com/ergebnis/agent-detector/compare/1.1.1...main
-[2655ea1...1.0.1]: https://github.com/ergebnis/agent-detector/compare/2655ea1...1.0.1
+[1.1.1...1.2.0]: https://github.com/ergebnis/agent-detector/compare/1.1.1...1.2.0
+[1.2.0...main]: https://github.com/ergebnis/agent-detector/compare/1.2.0...main
 
 [#1]: https://github.com/ergebnis/agent-detector/pull/1
 [#2]: https://github.com/ergebnis/agent-detector/pull/2
 [#4]: https://github.com/ergebnis/agent-detector/pull/4
+[#10]: https://github.com/ergebnis/agent-detector/pull/10
 
 [@localheinz]: https://github.com/localheinz
+[@raphaelstolt]: https://github.com/raphaelstolt

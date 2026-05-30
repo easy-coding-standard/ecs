@@ -32,8 +32,11 @@ final class InputParser
             // --option or --option=value
             if (strncmp((string) $item, '--', strlen('--')) === 0) {
                 [$name, $value] = $this->parseLongOption($item, $argv);
-                if (is_string($value)) {
+                if (!is_numeric($value)) {
                     // allow multiple param
+                    if (!isset($options[$name]) || !is_array($options[$name])) {
+                        $options[$name] = [];
+                    }
                     $options[$name][] = $value;
                     continue;
                 }

@@ -245,12 +245,24 @@ PHP;
     {
         $matches = self::getMatches($annotation);
         \assert(isset($matches[1]));
-        if (strncmp($matches[1], '::', strlen('::')) === 0) {
-            return self::createAttributeTokens($tokens, $index, 'CoversFunction', self::createEscapedStringToken((string) substr($matches[1], 2)));
+        $splitByDoubleColon = explode('::', $matches[1]);
+        $splitByDoubleColonCount = \count($splitByDoubleColon);
+        \assert(isset($splitByDoubleColon[0]));
+        if (1 === $splitByDoubleColonCount) {
+            // naive guessing if it's a Trait or Class, as we do not have access to codebase to make sure, but it's better than nothing
+            $isTrait = substr_compare($splitByDoubleColon[0], 'Trait', -strlen('Trait')) === 0;
+            return self::createAttributeTokens($tokens, $index, $isTrait ? 'CoversTrait' : 'CoversClass', ...self::toClassConstant($splitByDoubleColon[0]));
         }
-        if (strpos($matches[1], '::') === \false) {
-            return self::createAttributeTokens($tokens, $index, 'CoversClass', ...self::toClassConstant($matches[1]));
+        if (2 === $splitByDoubleColonCount) {
+            \assert(isset($splitByDoubleColon[1]));
+            if ('' === $splitByDoubleColon[0]) {
+                return self::createAttributeTokens($tokens, $index, 'CoversFunction', self::createEscapedStringToken($splitByDoubleColon[1]));
+            }
+            if ('' !== $splitByDoubleColon[1]) {
+                return self::createAttributeTokens($tokens, $index, 'CoversMethod', ...self::toClassConstant($splitByDoubleColon[0]), ...[new Token(','), new Token([\T_WHITESPACE, ' ']), self::fixNameAndCreateEscapedStringToken($splitByDoubleColon[1])]);
+            }
         }
+        // unexpected format, do not attempt to fix
         return [];
     }
     /**

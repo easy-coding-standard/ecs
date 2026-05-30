@@ -10,6 +10,7 @@ use ECSPrefix202605\Entropy\Console\ValueObject\Argument;
 use ECSPrefix202605\Entropy\Console\ValueObject\ArgumentsAndOptions;
 use ECSPrefix202605\Entropy\Console\ValueObject\Option;
 use ECSPrefix202605\Entropy\Reflection\ParameterDescriptionResolver;
+use ECSPrefix202605\Entropy\Reflection\ParameterOptionMarkerResolver;
 use ECSPrefix202605\Entropy\Tests\Console\Mapper\CommandRunParametersMapperTest;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -22,6 +23,7 @@ final class CommandRunParametersMapper
             $runReflectionMethod->setAccessible(\true);
         }
         $paramDescriptions = ParameterDescriptionResolver::resolve($runReflectionMethod);
+        $optionMarkers = ParameterOptionMarkerResolver::resolve($runReflectionMethod);
         $arguments = [];
         $options = [];
         foreach ($runReflectionMethod->getParameters() as $key => $reflectionParameter) {
@@ -42,8 +44,10 @@ final class CommandRunParametersMapper
                     $defaultValue = null;
                 }
             }
-            // first param can be an arg by convention, only "string" and "array" are allowed types
-            if ($key === 0 && in_array($parameterType, ['string', 'array'], \true)) {
+            // first param can be an arg by convention, only "string" and "array" are allowed types,
+            // unless explicitly marked as an option via "@option $paramName" in the docblock
+            $isExplicitOption = isset($optionMarkers[$parameterName]);
+            if ($key === 0 && !$isExplicitOption && in_array($parameterType, ['string', 'array'], \true)) {
                 $arguments[] = new Argument($parameterName, $description, $acceptsMultipleValue);
             } else {
                 // correct plural argumen to singular --option name

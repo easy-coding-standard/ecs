@@ -2,6 +2,8 @@
 
 A tiny framework with a dependency injection container and a console runner. No configuration, no YAML, no magic strings - just classes.
 
+Requires PHP 8.3+.
+
 <br>
 
 ## Install
@@ -76,12 +78,15 @@ final readonly class HelloCommand implements CommandInterface
     }
 
     /**
-     * @param string[] $paths Paths to greet.
+     * @param string[] $names Names to greet.
      * @param bool $loud Shout instead of speak.
      */
-    public function run(array $paths, bool $loud = false): int
+    public function run(array $names, bool $loud = false): int
     {
-        $this->outputPrinter->green('Hello!');
+        foreach ($names as $name) {
+            $greeting = $loud ? "HELLO {$name}!" : "Hello {$name}";
+            $this->outputPrinter->green($greeting);
+        }
 
         return ExitCode::SUCCESS;
     }
@@ -90,7 +95,7 @@ final readonly class HelloCommand implements CommandInterface
 
 <br>
 
-The `run()` method signature *is* the command definition. Argument types, default values, and docblocks become CLI arguments, options, and help text. No attributes to add, no input objects to wire.
+The `run()` method signature *is* the command definition. Parameter types, default values, and docblocks become CLI arguments, options, and help text. No attributes to add, no input objects to wire.
 
 <br>
 
@@ -112,12 +117,31 @@ exit($consoleApplication->run($argv));
 That's it. Run it:
 
 ```bash
-bin/console hello src/ --loud
+bin/console hello Alice Bob --loud
 ```
 
 <br>
 
-Typo a command name and the fuzzy matcher will pick the closest one. Pass `--help` for global help, or `command --help` for command-level help built from your docblocks.
+By convention, the first `string` or `array` parameter becomes a positional argument; everything else becomes a `--option`. To force the first parameter to be an option instead, mark it with `@option` in the docblock:
+
+```php
+/**
+ * @option $source
+ * @param string $source The source path
+ */
+public function run(string $source, bool $verbose = false): int
+{
+    // ...
+}
+```
+
+```bash
+bin/console hello --source=src/
+```
+
+<br>
+
+Typo a command name and the fuzzy matcher will pick the closest one. Pass `--help` for global help, or `<command> --help` for per-command help built from your docblocks.
 
 <br>
 

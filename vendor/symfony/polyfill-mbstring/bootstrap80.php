@@ -13,9 +13,9 @@ use Symfony\Polyfill\Mbstring as p;
 
 if (!function_exists('mb_convert_encoding')) {
     /**
+     * @return mixed[]|string|false
      * @param mixed[]|string|null $string
      * @param mixed[]|string|null $from_encoding
-     * @return mixed[]|string|false
      */
     function mb_convert_encoding($string, ?string $to_encoding, $from_encoding = null) { return p\Mbstring::mb_convert_encoding($string ?? '', (string) $to_encoding, $from_encoding); }
 }
@@ -60,8 +60,8 @@ if (!function_exists('mb_check_encoding')) {
 }
 if (!function_exists('mb_detect_encoding')) {
     /**
-     * @param mixed[]|string|null $encodings
      * @return string|false
+     * @param mixed[]|string|null $encodings
      */
     function mb_detect_encoding(?string $string, $encodings = null, ?bool $strict = false) { return p\Mbstring::mb_detect_encoding((string) $string, $encodings, (bool) $strict); }
 }
@@ -172,8 +172,8 @@ if (!function_exists('mb_http_input')) {
 
 if (!function_exists('mb_convert_variables')) {
     /**
-     * @param mixed[]|string|null $from_encoding
      * @return string|false
+     * @param mixed[]|string|null $from_encoding
      * @param mixed $var
      * @param mixed ...$vars
      */
@@ -200,27 +200,27 @@ if (!function_exists('mb_str_split')) {
 }
 
 if (!function_exists('mb_str_pad')) {
-    function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = STR_PAD_RIGHT, ?string $encoding = null): string { return p\Mbstring::mb_str_pad($string, $length, $pad_string, $pad_type, $encoding); }
+    function mb_str_pad(?string $string, ?int $length, ?string $pad_string = ' ', ?int $pad_type = STR_PAD_RIGHT, ?string $encoding = null): string { return p\Mbstring::mb_str_pad((string) $string, (int) $length, (string) $pad_string, (int) $pad_type, $encoding); }
 }
 
 if (!function_exists('mb_ucfirst')) {
-    function mb_ucfirst(string $string, ?string $encoding = null): string { return p\Mbstring::mb_ucfirst($string, $encoding); }
+    function mb_ucfirst(?string $string, ?string $encoding = null): string { return p\Mbstring::mb_ucfirst((string) $string, $encoding); }
 }
 
 if (!function_exists('mb_lcfirst')) {
-    function mb_lcfirst(string $string, ?string $encoding = null): string { return p\Mbstring::mb_lcfirst($string, $encoding); }
+    function mb_lcfirst(?string $string, ?string $encoding = null): string { return p\Mbstring::mb_lcfirst((string) $string, $encoding); }
 }
 
 if (!function_exists('mb_trim')) {
-    function mb_trim(string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_trim($string, $characters, $encoding); }
+    function mb_trim(?string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_trim((string) $string, $characters, $encoding); }
 }
 
 if (!function_exists('mb_ltrim')) {
-    function mb_ltrim(string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_ltrim($string, $characters, $encoding); }
+    function mb_ltrim(?string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_ltrim((string) $string, $characters, $encoding); }
 }
 
 if (!function_exists('mb_rtrim')) {
-    function mb_rtrim(string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_rtrim($string, $characters, $encoding); }
+    function mb_rtrim(?string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_rtrim((string) $string, $characters, $encoding); }
 }
 
 if (extension_loaded('mbstring')) {

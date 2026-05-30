@@ -67,8 +67,7 @@ PHP
             if (!\in_array($element['type'], ['property', 'promoted_property'], \true)) {
                 continue;
             }
-            $classIndex = $tokens->getPrevTokenOfKind($index, [[\T_CLASS]]);
-            $modifiers = $tokensAnalyzer->getClassyModifiers($classIndex);
+            $modifiers = $tokensAnalyzer->getClassyModifiers($element['classIndex']);
             if (null === $modifiers['readonly']) {
                 continue;
             }

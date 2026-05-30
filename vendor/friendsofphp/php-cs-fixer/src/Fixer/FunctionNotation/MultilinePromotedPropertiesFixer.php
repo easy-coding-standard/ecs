@@ -199,7 +199,9 @@ PHP
         $indent = WhitespacesAnalyzer::detectIndent($tokens, $openParenthesis);
         $tokens->ensureWhitespaceAtIndex($closeParenthesis - 1, 1, $this->whitespacesConfig->getLineEnding() . $indent);
         $index = $tokens->getPrevMeaningfulToken($closeParenthesis);
-        \assert(\is_int($index));
+        if (!$tokens[$index]->equals(',')) {
+            $index = $closeParenthesis;
+        }
         while ($index > $openParenthesis) {
             $index = $tokens->getPrevMeaningfulToken($index);
             \assert(\is_int($index));

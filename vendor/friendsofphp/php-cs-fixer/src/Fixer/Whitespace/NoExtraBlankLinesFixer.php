@@ -262,6 +262,7 @@ PHP
             if (!$token->isGivenKind($kind)) {
                 continue;
             }
+            \assert(isset($this->tokenKindCallbackMap[$token->getId()]));
             \call_user_func_array($this->tokenKindCallbackMap[$token->getId()], [$index]);
             return;
         }
@@ -269,6 +270,7 @@ PHP
             if (!$token->equals($equals)) {
                 continue;
             }
+            \assert(isset($this->tokenEqualsMap[$token->getContent()]));
             \call_user_func_array($this->tokenEqualsMap[$token->getContent()], [$index]);
             return;
         }
@@ -291,6 +293,7 @@ PHP
         $parts = Preg::split('/(.*\R)/', $this->tokens[$index]->getContent(), -1, \PREG_SPLIT_DELIM_CAPTURE | \PREG_SPLIT_NO_EMPTY);
         $count = \count($parts);
         if ($count > $expected) {
+            \assert(isset($parts[$count - 1]));
             $this->tokens[$index] = new Token([\T_WHITESPACE, implode('', \array_slice($parts, 0, $expected)) . rtrim($parts[$count - 1], "\r\n")]);
         }
     }

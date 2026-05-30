@@ -120,6 +120,7 @@ PHP
         }
         $previousType = null;
         for ($i = $usesCount - 1; $i >= 0; --$i) {
+            \assert(isset($uses[$i]));
             $index = $uses[$i];
             $startIndex = $tokens->getNextMeaningfulToken($index + 1);
             $endIndex = $tokens->getNextTokenOfKind($startIndex, [';', [\T_CLOSE_TAG]]);
@@ -156,7 +157,7 @@ PHP
             }
             $content = $tokens[$index]->getContent();
             if (strpos($content, "\n") !== \false) {
-                return $index;
+                break;
             }
         }
         return $index;

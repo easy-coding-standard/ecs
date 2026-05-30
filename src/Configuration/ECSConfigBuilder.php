@@ -273,7 +273,7 @@ final class ECSConfigBuilder
         }
         if ($strict) {
             // throw exception, as deprecated
-            throw new DeprecatedException('The "strict" set is deprecated as it is dangerous without context. Use Rector instead to make sure you are not breaking your code');
+            throw new DeprecatedException('The "strict" set is deprecated as it is dangerous without context. Remove the "strict: true" from ->withPreparedSets(strict: true, ...) call in "ecs.php" and use Rector instead to make sure you are not breaking your code.');
         }
         if ($cleanCode) {
             $this->sets[] = SetList::CLEAN_CODE;
